@@ -44,8 +44,8 @@ Describe 'PsFindFiles module' {
             New-Item -ItemType File -Path (Join-Path $root 'top.docx') | Out-Null
             New-Item -ItemType File -Path (Join-Path $nested 'nested.pptx') | Out-Null
 
-            (Find-MsOfficeFiles -Path $root -Recurse:$false).Count | Should Be 1
-            (Find-MsOfficeFiles -Path $root -Recurse).Count | Should Be 2
+            @(Find-MsOfficeFiles -Path $root -Recurse:$false).Count | Should Be 1
+            @(Find-MsOfficeFiles -Path $root -Recurse).Count | Should Be 2
         }
 
         It 'throws when path does not exist' {
