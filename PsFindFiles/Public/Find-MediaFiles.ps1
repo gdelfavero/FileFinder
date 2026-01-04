@@ -64,7 +64,7 @@ function Find-MediaFile {
         [string]$MediaType = "All",
         
         [Parameter(Mandatory = $false)]
-        [switch]$Recurse = $true,
+        [bool]$Recurse = $true,
         
         [Parameter(Mandatory = $false)]
         [string]$ExportCSV,
