@@ -2,7 +2,7 @@
 
 A PowerShell module collection for finding specific types of files.
 
-Current module version: 1\.1\.0
+Current module version: __PSFINDFILES_VERSION__
 
 ## PsFindFiles Module
 
