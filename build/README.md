@@ -9,12 +9,43 @@ This folder centralizes the steps and scripts for preparing and publishing `PsFi
 - PSGallery API key available and stored securely (do not commit it)
 
 ## Workflow (recommended)
-1) Install prerequisites: `./Install-PublishPrereqs.ps1`
-2) Bump the module version (auto-sync README and changelog): `./Bump-PsFindFilesVersion.ps1 -BumpPatch` (or `-BumpMinor`/`-Version`)
-3) Regenerate external help (optional, or handled by publish script): `Import-Module PlatyPS; New-ExternalHelp -Path ./PsFindFiles/docs/en-US -OutputPath ./PsFindFiles/en-US -Force`
-4) Lint and test: `Invoke-ScriptAnalyzer -Path ./PsFindFiles -Settings ./PSScriptAnalyzerSettings.psd1`; `Invoke-Pester -Path ./tests`
-5) Validate manifest: `Test-ModuleManifest ./PsFindFiles/PsFindFiles.psd1`
-6) Publish: `./Publish-PsFindFiles.ps1 -ApiKey '<your-PSGallery-key>' -Repository PSGallery`
+1) Install prerequisites:
+```powershell
+./Install-PublishPrereqs.ps1
+```
+2) Bump the module version (auto-sync README and changelog):
+```powershell
+./Bump-PsFindFilesVersion.ps1 -BumpPatch
+```
+	Or:
+```powershell
+./Bump-PsFindFilesVersion.ps1 -BumpMinor
+```
+```powershell
+./Bump-PsFindFilesVersion.ps1 -Version 1.1.0
+```
+3) Regenerate external help (optional, or handled by publish script):
+```powershell
+Import-Module PlatyPS
+```
+```powershell
+New-ExternalHelp -Path ./PsFindFiles/docs/en-US -OutputPath ./PsFindFiles/en-US -Force
+```
+4) Lint and test:
+```powershell
+Invoke-ScriptAnalyzer -Path ./PsFindFiles -Settings ./PSScriptAnalyzerSettings.psd1
+```
+```powershell
+Invoke-Pester -Path ./tests
+```
+5) Validate manifest:
+```powershell
+Test-ModuleManifest ./PsFindFiles/PsFindFiles.psd1
+```
+6) Publish:
+```powershell
+./Publish-PsFindFiles.ps1 -ApiKey '<your-PSGallery-key>' -Repository PSGallery
+```
 
 ## Scripts
 - `Install-PublishPrereqs.ps1`: Installs required tooling modules if missing.
