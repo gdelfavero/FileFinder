@@ -2,6 +2,8 @@
 
 A PowerShell module collection for finding specific types of files.
 
+Current module version: 1\.1\.0
+
 ## PsFindFiles Module
 
 PsFindFiles is a PowerShell module that provides cmdlets for finding various types of files on your system. It supports both PowerShell 7.x (Core) and Windows PowerShell 5.1 (Desktop).
