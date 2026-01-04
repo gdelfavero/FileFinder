@@ -1,18 +1,20 @@
-$here = Split-Path -Parent $PSCommandPath
-$modulePath = Join-Path $here '..\PsFindFiles\PsFindFiles.psd1'
-$here = Split-Path -Parent $PSCommandPath
-$modulePath = Join-Path $here '..\PsFindFiles\PsFindFiles.psd1'
-Import-Module $modulePath -Force
-
 Describe 'PsFindFiles module' {
+    BeforeAll {
+        $scriptPath = if ($PSCommandPath) { $PSCommandPath } elseif ($MyInvocation.MyCommand.Path) { $MyInvocation.MyCommand.Path } else { $null }
+        if (-not $scriptPath) { throw 'Unable to determine test script path.' }
+        $scriptRoot = Split-Path -Parent $scriptPath
+        $modulePath = Join-Path -Path $scriptRoot -ChildPath '..\PsFindFiles\PsFindFiles.psd1'
+        $resolved = Resolve-Path -LiteralPath $modulePath -ErrorAction Stop
+        Import-Module $resolved.Path -Force
+    }
     Context 'Module surface' {
         It 'exports the expected functions and aliases' {
             $cmds = Get-Command -Module PsFindFiles | Select-Object -ExpandProperty Name
-            ($cmds -contains 'Find-MsOfficeFile') | Should Be $true
-            ($cmds -contains 'Find-MediaFile') | Should Be $true
-            ($cmds -contains 'Find-MsOfficeFiles') | Should Be $true
-            ($cmds -contains 'Find-MediaFiles') | Should Be $true
-            ($cmds | Measure-Object).Count | Should Be 4
+            ($cmds -contains 'Find-MsOfficeFile') | Should -BeTrue
+            ($cmds -contains 'Find-MediaFile') | Should -BeTrue
+            ($cmds -contains 'Find-MsOfficeFiles') | Should -BeTrue
+            ($cmds -contains 'Find-MediaFiles') | Should -BeTrue
+            ($cmds | Measure-Object).Count | Should -Be 4
         }
     }
 
@@ -25,9 +27,9 @@ Describe 'PsFindFiles module' {
             New-Item -ItemType File -Path (Join-Path $root 'legacy.doc') | Out-Null
 
             $results = Find-MsOfficeFile -Path $root
-            ($results.Name -contains 'doc.docx') | Should Be $true
-            ($results.Name -contains 'sheet.xlsm') | Should Be $true
-            ($results.Name -contains 'legacy.doc') | Should Be $false
+            ($results.Name -contains 'doc.docx') | Should -BeTrue
+            ($results.Name -contains 'sheet.xlsm') | Should -BeTrue
+            ($results.Name -contains 'legacy.doc') | Should -BeFalse
         }
 
         It 'includes legacy formats when IncludeLegacy is set' {
@@ -37,8 +39,8 @@ Describe 'PsFindFiles module' {
             New-Item -ItemType File -Path (Join-Path $root 'legacy.doc') | Out-Null
 
             $results = Find-MsOfficeFile -Path $root -IncludeLegacy
-            ($results.Name -contains 'doc.docx') | Should Be $true
-            ($results.Name -contains 'legacy.doc') | Should Be $true
+            ($results.Name -contains 'doc.docx') | Should -BeTrue
+            ($results.Name -contains 'legacy.doc') | Should -BeTrue
         }
 
         It 'respects recurse for nested directories' {
@@ -48,20 +50,20 @@ Describe 'PsFindFiles module' {
             New-Item -ItemType File -Path (Join-Path $root 'top.docx') | Out-Null
             New-Item -ItemType File -Path (Join-Path $nested 'nested.pptx') | Out-Null
 
-            @(Find-MsOfficeFile -Path $root -Recurse:$false).Count | Should Be 1
-            @(Find-MsOfficeFile -Path $root -Recurse).Count | Should Be 2
+            @(Find-MsOfficeFile -Path $root -Recurse:$false).Count | Should -Be 1
+            @(Find-MsOfficeFile -Path $root -Recurse).Count | Should -Be 2
         }
 
         It 'throws when path does not exist' {
             $missing = Join-Path $TestDrive ([guid]::NewGuid().Guid)
-            Test-Path $missing | Should Be $false
+            Test-Path $missing | Should -BeFalse
             $thrown = $false
             try {
                 Find-MsOfficeFile -Path $missing -ErrorAction Stop | Out-Null
             } catch {
                 $thrown = $true
             }
-            $thrown | Should Be $true
+            $thrown | Should -BeTrue
         }
     }
 
@@ -74,11 +76,11 @@ Describe 'PsFindFiles module' {
             New-Item -ItemType File -Path (Join-Path $root 'photo.jpg') | Out-Null
             New-Item -ItemType File -Path (Join-Path $root 'vault.kdbx') | Out-Null
 
-            (Find-MediaFile -Path $root -MediaType Audio -Recurse:$false).Count | Should Be 1
-            (Find-MediaFile -Path $root -MediaType Video -Recurse:$false).Count | Should Be 1
-            (Find-MediaFile -Path $root -MediaType Picture -Recurse:$false).Count | Should Be 1
-            (Find-MediaFile -Path $root -MediaType Vaults -Recurse:$false).Count | Should Be 1
-            (Find-MediaFile -Path $root -MediaType All -Recurse:$false).Count | Should Be 4
+            (Find-MediaFile -Path $root -MediaType Audio -Recurse:$false).Count | Should -Be 1
+            (Find-MediaFile -Path $root -MediaType Video -Recurse:$false).Count | Should -Be 1
+            (Find-MediaFile -Path $root -MediaType Picture -Recurse:$false).Count | Should -Be 1
+            (Find-MediaFile -Path $root -MediaType Vaults -Recurse:$false).Count | Should -Be 1
+            (Find-MediaFile -Path $root -MediaType All -Recurse:$false).Count | Should -Be 4
         }
 
         It 'respects recurse for nested directories' {
@@ -88,8 +90,8 @@ Describe 'PsFindFiles module' {
             New-Item -ItemType File -Path (Join-Path $root 'top.mp3') | Out-Null
             New-Item -ItemType File -Path (Join-Path $nested 'deep.jpg') | Out-Null
 
-            (Find-MediaFile -Path $root -MediaType All -Recurse:$false).Count | Should Be 1
-            (Find-MediaFile -Path $root -MediaType All -Recurse:$true).Count | Should Be 2
+            (Find-MediaFile -Path $root -MediaType All -Recurse:$false).Count | Should -Be 1
+            (Find-MediaFile -Path $root -MediaType All -Recurse:$true).Count | Should -Be 2
         }
 
         It 'exports to CSV and JSON when requested' {
@@ -101,8 +103,8 @@ Describe 'PsFindFiles module' {
 
             Find-MediaFile -Path $root -MediaType Picture -ExportCSV $csvPath -ExportJSON $jsonPath -Recurse:$false | Out-Null
 
-            Test-Path $csvPath | Should Be $true
-            Test-Path $jsonPath | Should Be $true
+            Test-Path $csvPath | Should -BeTrue
+            Test-Path $jsonPath | Should -BeTrue
         }
     }
 }

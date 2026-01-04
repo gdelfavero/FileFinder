@@ -5,7 +5,7 @@ This folder centralizes the steps and scripts for preparing and publishing `PsFi
 ## Prerequisites
 - PowerShell 5.1 or 7.x
 - NuGet provider installed (`Install-PackageProvider -Name NuGet -Force`)
-- Modules: `PSScriptAnalyzer`, `Pester`, `PlatyPS`, `PowerShellGet` (latest available for your engine)
+- Modules: `PSScriptAnalyzer`, `Pester` (v5+), `PlatyPS`, `PowerShellGet` (latest available for your engine)
 - PSGallery API key available and stored securely (do not commit it)
 
 ## Workflow (recommended)
@@ -60,7 +60,7 @@ Test-ModuleManifest ./PsFindFiles/PsFindFiles.psd1
 ## Notes
 - Run from the repo root unless otherwise noted.
 - Keep API keys out of source control; use environment variables or a secure string when invoking publish.
-- Adjust `Pester` version to match your test suite (current tests target Pester 3.x).
+- Tests target `Pester` v5+.
 
 ## API key handling (SecretManagement)
 Install SecretManagement and SecretStore:

@@ -129,10 +129,10 @@ function Find-MediaFile {
             
             if ($Recurse) {
                 $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -Recurse -ErrorAction SilentlyContinue | 
-                                 Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
+                                Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
             } else {
                 $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -ErrorAction SilentlyContinue | 
-                                 Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
+                                Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
             }
 
             $endTime = Get-Date
