@@ -1,10 +1,10 @@
-function Find-MediaFile {
+function Find-MediaFiles {
     <#
     .SYNOPSIS
         Searches for media files (audio, video, pictures, and vaults) in a specified directory.
 
     .DESCRIPTION
-        The Find-MediaFile function searches for media files in a specified directory.
+        The Find-MediaFiles function searches for media files in a specified directory.
         It supports recursive search, filtering by media type, and various output formats.
         Results can be displayed with detailed information and exported to CSV or JSON formats.
 
@@ -28,19 +28,19 @@ function Find-MediaFile {
         Display detailed information about each file (size, creation date, modification date).
 
     .EXAMPLE
-        Find-MediaFile
+        Find-MediaFiles
         Searches for all media files in the current directory and subdirectories.
 
     .EXAMPLE
-        Find-MediaFile -Path "C:\Users\Documents" -MediaType Audio
+        Find-MediaFiles -Path "C:\Users\Documents" -MediaType Audio
         Searches for audio files only in the specified directory.
 
     .EXAMPLE
-        Find-MediaFile -Path "D:\Media" -Recurse $false
+        Find-MediaFiles -Path "D:\Media" -Recurse $false
         Searches for media files only in the specified directory (no subdirectories).
 
     .EXAMPLE
-        Find-MediaFile -Path "C:\Media" -ExportCSV "media_results.csv" -ShowDetails
+        Find-MediaFiles -Path "C:\Media" -ExportCSV "media_results.csv" -ShowDetails
         Searches for all media files and exports detailed results to CSV.
 
     .OUTPUTS
@@ -64,7 +64,7 @@ function Find-MediaFile {
         [string]$MediaType = "All",
         
         [Parameter(Mandatory = $false)]
-        [bool]$Recurse = $true,
+        [switch]$Recurse = $true,
         
         [Parameter(Mandatory = $false)]
         [string]$ExportCSV,
@@ -129,10 +129,10 @@ function Find-MediaFile {
             
             if ($Recurse) {
                 $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -Recurse -ErrorAction SilentlyContinue | 
-                                Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
+                                 Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
             } else {
                 $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -ErrorAction SilentlyContinue | 
-                                Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
+                                 Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
             }
 
             $endTime = Get-Date

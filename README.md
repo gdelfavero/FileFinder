@@ -2,7 +2,7 @@
 
 A PowerShell module collection for finding specific types of files.
 
-Current module version: __PSFINDFILES_VERSION__
+Current module version: 1\.1\.0
 
 ## PsFindFiles Module
 
@@ -115,7 +115,7 @@ PsFindFiles/
 │   ├── Find-MsOfficeFiles.ps1
 │   └── Find-MediaFiles.ps1
 └── Private/                  # Internal helper functions
-    └── Format-FileSize.ps1
+	└── Format-FileSize.ps1
 ```
 
 ### Development

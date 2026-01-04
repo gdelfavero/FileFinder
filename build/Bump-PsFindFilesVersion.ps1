@@ -22,34 +22,6 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
-function Format-PsFindFilesManifest {
-    param(
-        [Parameter(Mandatory)]
-        [string]$Path
-    )
-
-    $formatter = Get-Command Invoke-Formatter -ErrorAction SilentlyContinue
-    if (-not $formatter) {
-        Write-Warning 'Invoke-Formatter not found; manifest formatting skipped.'
-        return
-    }
-
-    $settingsPath = Join-Path $PSScriptRoot '..' 'PSScriptAnalyzerSettings.psd1'
-    if (-not (Test-Path -LiteralPath $settingsPath)) {
-        Write-Warning "Formatter settings not found at $settingsPath; manifest formatting skipped."
-        return
-    }
-
-    try {
-        $raw = Get-Content -LiteralPath $Path -Raw
-        $formatted = Invoke-Formatter -ScriptDefinition $raw -Settings $settingsPath
-        Set-Content -LiteralPath $Path -Value $formatted
-        Write-Host 'Manifest formatted for consistent indentation.'
-    } catch {
-        Write-Warning "Manifest formatting failed: $_"
-    }
-}
-
 if (-not (Test-Path -LiteralPath $ManifestPath)) {
     throw "Manifest not found at $ManifestPath"
 }
@@ -69,8 +41,6 @@ if ($newVersion -le $currentVersion) {
 }
 
 Update-ModuleManifest -Path $ManifestPath -ModuleVersion $newVersion.ToString()
-
-Format-PsFindFilesManifest -Path $ManifestPath
 
 Write-Host "Updated module version: $currentVersion -> $newVersion"
 

@@ -7,7 +7,7 @@
     )
 
     ExcludeRules = @(
-        'PSAvoidUsingWriteHost'  # UI output is intentional in Find-MediaFile
+        'PSAvoidUsingWriteHost'  # UI output is intentional in Find-MediaFiles
     )
 
     Rules = @{
