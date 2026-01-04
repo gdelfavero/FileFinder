@@ -6,6 +6,11 @@ A PowerShell module collection for finding specific types of files.
 
 PsFindFiles is a PowerShell module that provides cmdlets for finding various types of files on your system.
 
+### Functions Overview
+
+- `Find-MsOfficeFiles`: Locate Microsoft Office files (modern + optional legacy) with optional recursion.
+- `Find-MediaFiles`: Locate media (audio/video/picture) and vault file types, with optional exports and detailed display.
+
 ### Installation
 
 From the repository:
@@ -43,6 +48,9 @@ Find-MsOfficeFiles -Path "C:\Documents" -Recurse
 
 # Find both modern and legacy Office files
 Find-MsOfficeFiles -Path "C:\Documents" -Recurse -IncludeLegacy
+
+# Pipe paths in and search
+"C:\Docs","D:\Shared" | Find-MsOfficeFiles -Recurse
 ```
 
 #### Find-MediaFiles
@@ -68,6 +76,15 @@ Find-MediaFiles -Path "C:\Media" -MediaType Audio -Recurse:$false
 
 # Export video results to CSV with details
 Find-MediaFiles -Path "D:\Media" -MediaType Video -ExportCSV "videos.csv" -ShowDetails
+
+# Quick vault scan without recursion
+Find-MediaFiles -Path "C:\Users\me" -MediaType Vaults -Recurse:$false
+
+# JSON export of pictures for a reports folder
+Find-MediaFiles -Path "E:\Reports" -MediaType Picture -ExportJSON "pics.json"
+
+# Minimal: current directory, default filters
+Find-MediaFiles
 ```
 
 **Supported File Types:**
