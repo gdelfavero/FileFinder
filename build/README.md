@@ -17,32 +17,35 @@ This folder centralizes the steps and scripts for preparing and publishing `PsFi
 ```powershell
 ./build/Bump-PsFindFilesVersion.ps1 -BumpPatch -Verbose
 ```
-	Or:
+Or:
 ```powershell
 ./build/Bump-PsFindFilesVersion.ps1 -BumpMinor -Verbose
 ```
 ```powershell
 ./build/Bump-PsFindFilesVersion.ps1 -Version 1.1.0 -Verbose
 ```
-3) Regenerate external help (optional, or handled by publish script):
+3) Refresh PlatyPS markdown help (when parameters/examples change):
 ```powershell
 Import-Module PlatyPS
+Import-Module ./PsFindFiles/PsFindFiles.psd1 -Force
+Update-MarkdownHelp -Module PsFindFiles -OutputFolder ./PsFindFiles/docs/en-US -Force
 ```
+4) Regenerate external help (XML) from markdown:
 ```powershell
 New-ExternalHelp -Path ./PsFindFiles/docs/en-US -OutputPath ./PsFindFiles/en-US -Force
 ```
-4) Lint and test:
+5) Lint and test:
 ```powershell
 Invoke-ScriptAnalyzer -Path ./PsFindFiles -Settings ./PSScriptAnalyzerSettings.psd1
 ```
 ```powershell
 Invoke-Pester -Path ./tests
 ```
-5) Validate manifest:
+6) Validate manifest:
 ```powershell
 Test-ModuleManifest ./PsFindFiles/PsFindFiles.psd1
 ```
-6) Publish:
+7) Publish:
 ```powershell
 ./Publish-PsFindFiles.ps1 -ApiKey '<your-PSGallery-key>' -Repository PSGallery
 ```

@@ -4,7 +4,7 @@ function Find-MediaFile {
         Searches for media files (audio, video, pictures, and vaults) in a specified directory.
 
     .DESCRIPTION
-        The Find-MediaFiles function searches for media files in a specified directory.
+        The Find-MediaFile function searches for media files in a specified directory.
         It supports recursive search, filtering by media type, and various output formats.
         Results can be displayed with detailed information and exported to CSV or JSON formats.
 
