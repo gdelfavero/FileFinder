@@ -7,6 +7,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
+# User-specific files
+helper/
+
+# Vscode files
+.vscode/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
