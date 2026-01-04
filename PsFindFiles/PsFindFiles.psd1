@@ -5,122 +5,128 @@
 #
 # Generated on: 04/01/2026
 #
+
 @{
-    # Script module or binary module file associated with this manifest.
-    RootModule = 'PsFindFiles.psm1'
 
-    # Version number of this module.
-    ModuleVersion = '1.2.0'
+# Script module or binary module file associated with this manifest.
+RootModule = 'PsFindFiles.psm1'
 
-    # Supported PSEditions
-    CompatiblePSEditions = @('Core', 'Desktop')
+# Version number of this module.
+ModuleVersion = '1.2.1'
 
-    # ID used to uniquely identify this module
-    GUID = '247362b2-9bcd-4b1e-8479-403817629b07'
+# Supported PSEditions
+CompatiblePSEditions = 'Core', 'Desktop'
 
-    # Author of this module
-    Author = 'gdelfavero'
+# ID used to uniquely identify this module
+GUID = '247362b2-9bcd-4b1e-8479-403817629b07'
 
-    # Company or vendor of this module
-    CompanyName = 'gdelfavero'
+# Author of this module
+Author = 'gdelfavero'
 
-    # Copyright statement for this module
-    Copyright = '(c) 2026 gdelfavero. All rights reserved.'
+# Company or vendor of this module
+CompanyName = 'gdelfavero'
 
-    # Description of the functionality provided by this module
-    Description = 'PowerShell module for finding Microsoft Office files, media files, and vaults'
+# Copyright statement for this module
+Copyright = '(c) 2026 gdelfavero. All rights reserved.'
 
-    # Minimum version of the PowerShell engine required by this module
-    PowerShellVersion = '5.1'
+# Description of the functionality provided by this module
+Description = 'PowerShell module for finding Microsoft Office files, media files, and vaults'
 
-    # Name of the PowerShell host required by this module
-    # PowerShellHostName = ''
+# Minimum version of the PowerShell engine required by this module
+PowerShellVersion = '5.1'
 
-    # Minimum version of the PowerShell host required by this module
-    # PowerShellHostVersion = ''
+# Name of the PowerShell host required by this module
+# PowerShellHostName = ''
 
-    # Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-    # DotNetFrameworkVersion = ''
+# Minimum version of the PowerShell host required by this module
+# PowerShellHostVersion = ''
 
-    # Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
-    # ClrVersion = ''
+# Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
+# DotNetFrameworkVersion = ''
 
-    # Processor architecture (None, X86, Amd64) required by this module
-    # ProcessorArchitecture = ''
+# Minimum version of the common language runtime (CLR) required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
+# ClrVersion = ''
 
-    # Modules that must be imported into the global environment prior to importing this module
-    # RequiredModules = @()
+# Processor architecture (None, X86, Amd64) required by this module
+# ProcessorArchitecture = ''
 
-    # Assemblies that must be loaded prior to importing this module
-    # RequiredAssemblies = @()
+# Modules that must be imported into the global environment prior to importing this module
+# RequiredModules = @()
 
-    # Script files (.ps1) that are run in the caller's environment prior to importing this module.
-    # ScriptsToProcess = @()
+# Assemblies that must be loaded prior to importing this module
+# RequiredAssemblies = @()
 
-    # Type files (.ps1xml) to be loaded when importing this module
-    # TypesToProcess = @()
+# Script files (.ps1) that are run in the caller's environment prior to importing this module.
+# ScriptsToProcess = @()
 
-    # Format files (.ps1xml) to be loaded when importing this module
-    # FormatsToProcess = @()
+# Type files (.ps1xml) to be loaded when importing this module
+# TypesToProcess = @()
 
-    # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-    # NestedModules = @()
+# Format files (.ps1xml) to be loaded when importing this module
+# FormatsToProcess = @()
 
-    # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = 'Find-MsOfficeFiles', 'Find-MediaFiles'
+# Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
+# NestedModules = @()
 
-    # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport = @()
+# Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
+FunctionsToExport = 'Find-MsOfficeFiles', 'Find-MediaFiles'
 
-    # Variables to export from this module
-    # VariablesToExport = @()
+# Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
+CmdletsToExport = @()
 
-    # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport = @()
+# Variables to export from this module
+# VariablesToExport = @()
 
-    # DSC resources to export from this module
-    # DscResourcesToExport = @()
+# Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
+AliasesToExport = @()
 
-    # List of all modules packaged with this module
-    # ModuleList = @()
+# DSC resources to export from this module
+# DscResourcesToExport = @()
 
-    # List of all files packaged with this module
-    # FileList = @()
+# List of all modules packaged with this module
+# ModuleList = @()
 
-    # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData = @{
-        PSData = @{
-            # Tags applied to this module. These help with module discovery in online galleries.
-            Tags = 'Files', 'Search', 'Office', 'Media', 'Vaults', 'PowerShell', 'Module'
+# List of all files packaged with this module
+# FileList = @()
 
-            # A URL to the license for this module.
-            LicenseUri = 'https://spdx.org/licenses/MIT.html'
+# Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
+PrivateData = @{
 
-            # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/gdelfavero/FileFinder'
+    PSData = @{
 
-            # A URL to an icon representing this module.
-            # IconUri = ''
+        # Tags applied to this module. These help with module discovery in online galleries.
+        Tags = 'Files','Search','Office','Media','Vaults','PowerShell','Module'
 
-            # ReleaseNotes of this module
-            ReleaseNotes = 'Initial gallery release with Find-MsOfficeFiles and Find-MediaFiles.'
+        # A URL to the license for this module.
+        LicenseUri = 'https://spdx.org/licenses/MIT.html'
 
-            # Prerelease string of this module
-            # Prerelease = ''
+        # A URL to the main website for this project.
+        ProjectUri = 'https://github.com/gdelfavero/FileFinder'
 
-            # Flag to indicate whether the module requires explicit user acceptance for install/update/save
-            # RequireLicenseAcceptance = $false
+        # A URL to an icon representing this module.
+        # IconUri = ''
 
-            # External dependent modules of this module
-            # ExternalModuleDependencies = @()
-        } # End of PSData hashtable
-    } # End of PrivateData hashtable
+        # ReleaseNotes of this module
+        ReleaseNotes = 'Initial gallery release with Find-MsOfficeFiles and Find-MediaFiles.'
 
-    # HelpInfo URI of this module
-    # HelpInfoURI = ''
+        # Prerelease string of this module
+        # Prerelease = ''
 
-    # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
-    # DefaultCommandPrefix = ''
+        # Flag to indicate whether the module requires explicit user acceptance for install/update/save
+        # RequireLicenseAcceptance = $false
+
+        # External dependent modules of this module
+        # ExternalModuleDependencies = @()
+
+    } # End of PSData hashtable
+
+ } # End of PrivateData hashtable
+
+# HelpInfo URI of this module
+# HelpInfoURI = ''
+
+# Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
+# DefaultCommandPrefix = ''
 
 }
 
