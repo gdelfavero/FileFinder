@@ -85,8 +85,7 @@ function Find-MsOfficeFiles {
         
         # Validate path exists
         if (-not (Test-Path -Path $Path)) {
-            Write-Error "The specified path '$Path' does not exist."
-            return
+            throw "The specified path '$Path' does not exist."
         }
     }
     
