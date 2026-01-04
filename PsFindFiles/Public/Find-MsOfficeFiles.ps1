@@ -82,20 +82,23 @@ function Find-MsOfficeFiles {
         if ($IncludeLegacy) {
             $extensions += $legacyExtensions
         }
-        
-        # Validate path exists
-        if (-not (Test-Path -Path $Path)) {
-            throw "The specified path '$Path' does not exist."
-        }
     }
     
     process {
         try {
+            $resolvedPath = Resolve-Path -LiteralPath $Path -ErrorAction Stop
+        }
+        catch {
+            Write-Error "The specified path '$Path' does not exist." -ErrorAction Stop
+            return
+        }
+
+        try {
             foreach ($extension in $extensions) {
                 $searchParams = @{
-                    Path    = $Path
-                    Filter  = $extension
-                    File    = $true
+                    LiteralPath = $resolvedPath
+                    Filter      = $extension
+                    File        = $true
                     ErrorAction = 'SilentlyContinue'
                 }
                 

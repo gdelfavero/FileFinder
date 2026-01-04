@@ -62,7 +62,7 @@ function Find-MediaFiles {
         [string]$MediaType = "All",
         
         [Parameter(Mandatory = $false)]
-        [bool]$Recurse = $true,
+        [switch]$Recurse = $true,
         
         [Parameter(Mandatory = $false)]
         [string]$ExportCSV,
@@ -71,7 +71,10 @@ function Find-MediaFiles {
         [string]$ExportJSON,
         
         [Parameter(Mandatory = $false)]
-        [switch]$ShowDetails
+        [switch]$ShowDetails,
+
+        [Parameter(Mandatory = $false)]
+        [switch]$ShowBanner
     )
 
     begin {
@@ -83,18 +86,20 @@ function Find-MediaFiles {
 
         Write-Verbose "Function started with Path=$Path, MediaType=$MediaType"
 
-        # Validate path exists
-        if (-not (Test-Path -Path $Path)) {
-            throw "The specified path '$Path' does not exist."
+        $infoParams = @{ InformationAction = 'Continue' }
+
+        if ($ShowBanner) {
+            Write-Information @infoParams ""
+            Write-Information @infoParams "╔══════════════════════════════════════════════════════════╗"
+            Write-Information @infoParams "║          PsMediaFinder - Media File Scanner            ║"
+            Write-Information @infoParams "╚══════════════════════════════════════════════════════════╝"
+            Write-Information @infoParams ""
         }
 
-        Write-Host "`n╔══════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-        Write-Host "║          PsMediaFinder - Media File Scanner            ║" -ForegroundColor Cyan
-        Write-Host "╚══════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
-
-        Write-Host "Searching in: $Path" -ForegroundColor Yellow
-        Write-Host "Media Type: $MediaType" -ForegroundColor Yellow
-        Write-Host "Recursive: $Recurse`n" -ForegroundColor Yellow
+        Write-Information @infoParams "Searching in: $Path"
+        Write-Information @infoParams "Media Type: $MediaType"
+        Write-Information @infoParams "Recursive: $Recurse"
+        Write-Information @infoParams ""
 
         # Determine which extensions to search for
         $searchExtensions = @()
@@ -109,17 +114,25 @@ function Find-MediaFiles {
 
     process {
         try {
+            $resolvedPath = Resolve-Path -LiteralPath $Path -ErrorAction Stop
+        }
+        catch {
+            Write-Error "The specified path '$Path' does not exist." -ErrorAction Stop
+            return
+        }
+
+        try {
             # Search for media files
-            Write-Host "Scanning for media files..." -ForegroundColor Green
+            Write-Verbose "Scanning for media files..."
             $startTime = Get-Date
 
             $allMediaFiles = @()
             
             if ($Recurse) {
-                $allMediaFiles = Get-ChildItem -Path $Path -File -Recurse -ErrorAction SilentlyContinue | 
+                $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -Recurse -ErrorAction SilentlyContinue | 
                                  Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
             } else {
-                $allMediaFiles = Get-ChildItem -Path $Path -File -ErrorAction SilentlyContinue | 
+                $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -ErrorAction SilentlyContinue | 
                                  Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
             }
 
@@ -165,74 +178,63 @@ function Find-MediaFiles {
             }
 
             # Display summary
-            Write-Host "`n╔══════════════════════════════════════════════════════════╗" -ForegroundColor Green
-            Write-Host "║                     Search Results                      ║" -ForegroundColor Green
-            Write-Host "╚══════════════════════════════════════════════════════════╝`n" -ForegroundColor Green
+            Write-Information @infoParams "╔══════════════════════════════════════════════════════════╗"
+            Write-Information @infoParams "║                     Search Results                      ║"
+            Write-Information @infoParams "╚══════════════════════════════════════════════════════════╝"
+            Write-Information @infoParams ""
 
-            Write-Host "Search completed in: $($duration.TotalSeconds.ToString('F2')) seconds" -ForegroundColor Cyan
-            Write-Host "`nTotal files found: $($results.Count)" -ForegroundColor White
+            Write-Information @infoParams "Search completed in: $($duration.TotalSeconds.ToString('F2')) seconds"
+            Write-Information @infoParams ""
+            Write-Information @infoParams "Total files found: $($results.Count)"
 
             if ($MediaType -eq "All" -or $MediaType -eq "Audio") {
-                Write-Host "  Audio files:   $($audioFiles.Count)" -ForegroundColor Magenta
+                Write-Information @infoParams "  Audio files:   $($audioFiles.Count)"
             }
             if ($MediaType -eq "All" -or $MediaType -eq "Video") {
-                Write-Host "  Video files:   $($videoFiles.Count)" -ForegroundColor Blue
+                Write-Information @infoParams "  Video files:   $($videoFiles.Count)"
             }
             if ($MediaType -eq "All" -or $MediaType -eq "Picture") {
-                Write-Host "  Picture files: $($pictureFiles.Count)" -ForegroundColor Yellow
+                Write-Information @infoParams "  Picture files: $($pictureFiles.Count)"
             }
             if ($MediaType -eq "All" -or $MediaType -eq "Vaults") {
-                Write-Host "  Vault files:   $($vaultFiles.Count)" -ForegroundColor Red
+                Write-Information @infoParams "  Vault files:   $($vaultFiles.Count)"
             }
 
             # Calculate total size
             $totalSize = ($results | Measure-Object -Property Size -Sum).Sum
-            Write-Host "`nTotal size: $(Format-FileSize -Size $totalSize)" -ForegroundColor White
+            Write-Information @infoParams ""
+            Write-Information @infoParams "Total size: $(Format-FileSize -Size $totalSize)"
 
             # Display detailed results
             if ($results.Count -gt 0) {
-                Write-Host "`n" + ("─" * 80) -ForegroundColor Gray
+                Write-Information @infoParams ""
+                Write-Information @infoParams ("─" * 80)
                 
                 if ($ShowDetails) {
-                    Write-Host "`nDetailed File List:" -ForegroundColor Cyan
-                    Write-Host ("─" * 80) -ForegroundColor Gray
+                    Write-Information @infoParams ""
+                    Write-Information @infoParams "Detailed File List:"
+                    Write-Information @infoParams ("─" * 80)
                     
                     foreach ($file in $results | Sort-Object Type, Name) {
-                        $typeColor = switch ($file.Type) {
-                            "Audio" { "Magenta" }
-                            "Video" { "Blue" }
-                            "Picture" { "Yellow" }
-                            "Vaults" { "Red" }
-                            default { "White" }
-                        }
-                        
-                        Write-Host "`n[$($file.Type)]" -ForegroundColor $typeColor -NoNewline
-                        Write-Host " $($file.Name)" -ForegroundColor White
-                        Write-Host "  Path:     $($file.Path)" -ForegroundColor Gray
-                        Write-Host "  Size:     $($file.SizeFormatted)" -ForegroundColor Gray
-                        Write-Host "  Created:  $($file.Created.ToString('yyyy-MM-dd HH:mm:ss'))" -ForegroundColor Gray
-                        Write-Host "  Modified: $($file.Modified.ToString('yyyy-MM-dd HH:mm:ss'))" -ForegroundColor Gray
+                        Write-Information @infoParams ""
+                        Write-Information @infoParams "[$($file.Type)] $($file.Name)"
+                        Write-Information @infoParams "  Path:     $($file.Path)"
+                        Write-Information @infoParams "  Size:     $($file.SizeFormatted)"
+                        Write-Information @infoParams "  Created:  $($file.Created.ToString('yyyy-MM-dd HH:mm:ss'))"
+                        Write-Information @infoParams "  Modified: $($file.Modified.ToString('yyyy-MM-dd HH:mm:ss'))"
                     }
                 } else {
-                    Write-Host "`nFile List (use -ShowDetails for more information):" -ForegroundColor Cyan
-                    Write-Host ("─" * 80) -ForegroundColor Gray
+                    Write-Information @infoParams ""
+                    Write-Information @infoParams "File List (use -ShowDetails for more information):"
+                    Write-Information @infoParams ("─" * 80)
                     
                     foreach ($file in $results | Sort-Object Type, Name) {
-                        $typeColor = switch ($file.Type) {
-                            "Audio" { "Magenta" }
-                            "Video" { "Blue" }
-                            "Picture" { "Yellow" }
-                            "Vaults" { "Red" }
-                            default { "White" }
-                        }
-                        
-                        Write-Host "[$($file.Type.PadRight(7))]" -ForegroundColor $typeColor -NoNewline
-                        Write-Host " $($file.Name.PadRight(40))" -ForegroundColor White -NoNewline
-                        Write-Host " $($file.SizeFormatted)" -ForegroundColor Gray
+                        Write-Information @infoParams "[$($file.Type.PadRight(7))] $($file.Name.PadRight(40)) $($file.SizeFormatted)"
                     }
                 }
                 
-                Write-Host "`n" + ("─" * 80) -ForegroundColor Gray
+                Write-Information @infoParams ""
+                Write-Information @infoParams ("─" * 80)
             }
 
             # Export results to CSV
@@ -240,7 +242,8 @@ function Find-MediaFiles {
                 try {
                     $results | Select-Object Name, Type, Path, Directory, Extension, SizeFormatted, Created, Modified | 
                         Export-Csv -Path $ExportCSV -NoTypeInformation -Encoding UTF8
-                    Write-Host "`n[SUCCESS] Results exported to CSV: $ExportCSV" -ForegroundColor Green
+                    Write-Information @infoParams ""
+                    Write-Information @infoParams "[SUCCESS] Results exported to CSV: $ExportCSV"
                 } catch {
                     Write-Warning "Failed to export to CSV: $_"
                 }
@@ -250,7 +253,8 @@ function Find-MediaFiles {
             if ($ExportJSON) {
                 try {
                     $results | ConvertTo-Json -Depth 3 | Out-File -FilePath $ExportJSON -Encoding UTF8
-                    Write-Host "`n[SUCCESS] Results exported to JSON: $ExportJSON" -ForegroundColor Green
+                    Write-Information @infoParams ""
+                    Write-Information @infoParams "[SUCCESS] Results exported to JSON: $ExportJSON"
                 } catch {
                     Write-Warning "Failed to export to JSON: $_"
                 }
@@ -258,9 +262,11 @@ function Find-MediaFiles {
 
             # Display extension breakdown
             if ($results.Count -gt 0) {
-                Write-Host "`n╔══════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-                Write-Host "║                  Extension Breakdown                    ║" -ForegroundColor Cyan
-                Write-Host "╚══════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
+                Write-Information @infoParams ""
+                Write-Information @infoParams "╔══════════════════════════════════════════════════════════╗"
+                Write-Information @infoParams "║                  Extension Breakdown                    ║"
+                Write-Information @infoParams "╚══════════════════════════════════════════════════════════╝"
+                Write-Information @infoParams ""
                 
                 $extensionStats = $results | Group-Object Extension | 
                     Select-Object @{Name='Extension';Expression={$_.Name}}, 
@@ -269,13 +275,11 @@ function Find-MediaFiles {
                     Sort-Object Count -Descending
                 
                 foreach ($stat in $extensionStats) {
-                    Write-Host "  $($stat.Extension.PadRight(10))" -ForegroundColor White -NoNewline
-                    Write-Host " $($stat.Count.ToString().PadLeft(5)) files" -ForegroundColor Gray -NoNewline
-                    Write-Host "  ($(Format-FileSize -Size $stat.TotalSize))" -ForegroundColor DarkGray
+                    Write-Information @infoParams "  $($stat.Extension.PadRight(10)) $($stat.Count.ToString().PadLeft(5)) files  ($(Format-FileSize -Size $stat.TotalSize))"
                 }
             }
 
-            Write-Host ""
+            Write-Information @infoParams ""
 
             # Return results
             return $results
