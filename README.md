@@ -127,6 +127,11 @@ Functions in the `Private` folder are loaded but not exported (internal use only
 - Lint (PSScriptAnalyzer): `Invoke-ScriptAnalyzer -Path ./PsFindFiles -Settings ./PSScriptAnalyzerSettings.psd1`
 - Reimport after changes: `Import-Module ./PsFindFiles/PsFindFiles.psd1 -Force`
 
+### Help (PlatyPS)
+
+- Generate markdown help stubs: `Import-Module PlatyPS; New-MarkdownHelp -Module PsFindFiles -OutputFolder ./PsFindFiles/docs/en-US -WithModulePage -Force`
+- Regenerate external help (MAML): `Import-Module PlatyPS; New-ExternalHelp -Path ./PsFindFiles/docs/en-US -OutputPath ./PsFindFiles/en-US -Force`
+
 ### License
 
 This project is open source under the MIT License (see `LICENSE`).
