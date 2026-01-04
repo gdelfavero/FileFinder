@@ -12,7 +12,7 @@
     RootModule = 'PsFindFiles.psm1'
 
     # Version number of this module.
-    ModuleVersion = '1.2.2'
+    ModuleVersion = '1.2.1'
 
     # Supported PSEditions
     CompatiblePSEditions = 'Core', 'Desktop'
