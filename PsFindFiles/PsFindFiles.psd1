@@ -12,7 +12,7 @@
 RootModule = 'PsFindFiles.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0'
+ModuleVersion = '1.0.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -24,13 +24,13 @@ GUID = '247362b2-9bcd-4b1e-8479-403817629b07'
 Author = 'gdelfavero'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'gdelfavero'
 
 # Copyright statement for this module
-Copyright = '(c) gdelfavero. All rights reserved.'
+Copyright = '(c) 2026 gdelfavero. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'PowerShell module for finding specific types of files'
+Description = 'PowerShell module for finding Microsoft Office files, media files, and vaults'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '5.1'
@@ -95,10 +95,10 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Files', 'Search', 'Office', 'Utility'
+        Tags = 'Files', 'Search', 'Office', 'Media', 'Vaults', 'PowerShell', 'Module'
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://spdx.org/licenses/MIT.html'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/gdelfavero/FileFinder'
@@ -107,7 +107,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        # ReleaseNotes = ''
+        ReleaseNotes = 'Initial gallery release with Find-MsOfficeFiles and Find-MediaFiles.'
 
         # Prerelease string of this module
         # Prerelease = ''

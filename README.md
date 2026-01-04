@@ -8,10 +8,17 @@ PsFindFiles is a PowerShell module that provides cmdlets for finding various typ
 
 ### Installation
 
-To use this module, clone the repository and import the module:
+From the repository:
 
 ```powershell
-Import-Module ./PsFindFiles/PsFindFiles.psd1
+Import-Module ./PsFindFiles/PsFindFiles.psd1 -Force
+```
+
+From PowerShell Gallery (after publishing):
+
+```powershell
+Install-Module PsFindFiles
+Import-Module PsFindFiles -Force
 ```
 
 ### Available Functions
@@ -38,6 +45,31 @@ Find-MsOfficeFiles -Path "C:\Documents" -Recurse
 Find-MsOfficeFiles -Path "C:\Documents" -Recurse -IncludeLegacy
 ```
 
+#### Find-MediaFiles
+
+Searches for media, picture, audio, video, and vault files.
+
+**Parameters:**
+- `Path` - The path to search (defaults to current directory)
+- `MediaType` - One of Audio, Video, Picture, Vaults, All (default: All)
+- `Recurse` - Search subdirectories (default: `$true`)
+- `ExportCSV` - Export results to CSV
+- `ExportJSON` - Export results to JSON
+- `ShowDetails` - Show detailed output per file
+
+**Examples:**
+
+```powershell
+# Find all media files recursively
+Find-MediaFiles -Path "C:\Media"
+
+# Only audio, no recursion
+Find-MediaFiles -Path "C:\Media" -MediaType Audio -Recurse:$false
+
+# Export video results to CSV with details
+Find-MediaFiles -Path "D:\Media" -MediaType Video -ExportCSV "videos.csv" -ShowDetails
+```
+
 **Supported File Types:**
 
 Modern formats (Office 2007+):
@@ -61,8 +93,10 @@ PsFindFiles/
 ├── PsFindFiles.psd1          # Module manifest
 ├── PsFindFiles.psm1          # Module loader
 ├── Public/                   # Exported functions
-│   └── Find-MsOfficeFiles.ps1
+│   ├── Find-MsOfficeFiles.ps1
+│   └── Find-MediaFiles.ps1
 └── Private/                  # Internal helper functions
+	└── Format-FileSize.ps1
 ```
 
 ### Development
@@ -72,4 +106,4 @@ Functions in the `Private` folder are loaded but not exported (internal use only
 
 ### License
 
-This project is open source.
+This project is open source under the MIT License (see `LICENSE`).
