@@ -1,5 +1,12 @@
 ## v1.2.2 - 2026-01-04
 
+- d4bf46e Revert module version to 1.2.1 in PsFindFiles manifest
+- 4826fea Update PsFindFiles module and documentation
+- 0e73bad Merge branch 'dev_gedf' of https://github.com/gdelfavero/FileFinder into dev_gedf
+- 861a175 Update README to specify correct path for Install-PublishPrereqs script
+- ffab090 Update module version to 1.2.2 and rename functions for consistency: Find-MediaFiles to Find-MediaFile and Find-MsOfficeFiles to Find-MsOfficeFile; add legacy aliases for backward compatibility.
+- 2fa5db2 Refactor Bump-PsFindFilesVersion script: add manifest formatting function for consistent indentation and improve error handling in tests for Find-MsOfficeFile and Find-MediaFile functions
+- 75c355c Merge branch 'main' into dev_gedf
 - 63ab570 Remove backup of Find-MediaFiles function to clean up repository
 - d773298 Update module version to 1.2.1 in manifest and enhance documentation for clarity and consistency
 - 5174caf Refactor Find-MediaFiles function: simplify banner and summary display for better readability
@@ -26,7 +33,10 @@
 - f3187a6 Add testing and linting instructions to README
 - bbbbc38 Add PSScriptAnalyzer settings and tests for Find-MsOfficeFiles and Find-MediaFiles functions
 - 9a573cf Update module manifest and README; add LICENSE file
+- 7fa6921 No code changes detected; skipping commit.
 - df7defc Add Find-MediaFiles function and Format-FileSize utility; update module manifest
+- aac7e5b Add comprehensive AI agent instructions for FileFinder project
+- 23c0a8d Update .gitignore to include VsCode settings and user-specific files
 - 53194c5 Merge pull request #1 from gdelfavero/copilot/add-find-msofficefiles-module
 - f64b4df Fix error handling in Find-MsOfficeFiles to use throw instead of return
 - 3bd5602 Improve module manifest by explicitly defining exports
@@ -155,6 +165,7 @@
 # Changelog
 
 Entries are prepended by `build/Update-PsFindFilesChangelog.ps1` using commit summaries from git.
+
 
 
 
