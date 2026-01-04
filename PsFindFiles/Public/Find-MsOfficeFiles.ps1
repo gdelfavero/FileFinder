@@ -36,7 +36,6 @@ function Find-MsOfficeFiles {
 
     .NOTES
         Author: gdelfavero
-        Version: 1.0.1
     #>
     [CmdletBinding()]
     param (
