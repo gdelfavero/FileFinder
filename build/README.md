@@ -58,3 +58,24 @@ Test-ModuleManifest ./PsFindFiles/PsFindFiles.psd1
 - Run from the repo root unless otherwise noted.
 - Keep API keys out of source control; use environment variables or a secure string when invoking publish.
 - Adjust `Pester` version to match your test suite (current tests target Pester 3.x).
+
+## API key handling (SecretManagement)
+Install SecretManagement and SecretStore:
+```powershell
+Install-Module Microsoft.PowerShell.SecretManagement -Scope CurrentUser -Force
+```
+```powershell
+Install-Module Microsoft.PowerShell.SecretStore -Scope CurrentUser -Force
+```
+Register a local vault (default):
+```powershell
+Register-SecretVault -Name LocalSecretStore -ModuleName Microsoft.PowerShell.SecretStore -DefaultVault
+```
+Store your PSGallery API key:
+```powershell
+Set-Secret -Name GDF_PWSH_PSFILEFINDER_PUBLISH -Secret 'your-api-key'
+```
+Use it when publishing:
+```powershell
+./build/Publish-PsFindFiles.ps1 -ApiKey (Get-Secret GDF_PWSH_PSFILEFINDER_PUBLISH) -Repository PSGallery
+```

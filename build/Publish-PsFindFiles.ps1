@@ -36,7 +36,7 @@ Write-Host "Publishing PsFindFiles to $Repository (WhatIf=$($WhatIfPreference -e
 
 Assert-ModuleAvailable -Name 'PSScriptAnalyzer' -Skip:$SkipScriptAnalyzer
 Assert-ModuleAvailable -Name 'Pester' -Skip:$SkipPester
-Assert-ModuleAvailable -Name 'PlatyPS' -Skip:$SkipPlatyPS -Skip:$SkipHelp
+Assert-ModuleAvailable -Name 'PlatyPS' -Skip:($SkipPlatyPS -or $SkipHelp)
 
 if (-not $SkipScriptAnalyzer) {
     Write-Host 'Running PSScriptAnalyzer...'
