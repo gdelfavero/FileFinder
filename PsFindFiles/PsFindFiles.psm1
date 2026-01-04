@@ -25,5 +25,7 @@ foreach ($function in $PublicFunctions) {
     }
 }
 
-# Export public functions (Public folder functions are meant to be exported)
-Export-ModuleMember -Function $PublicFunctions.BaseName
+# Export public functions and legacy aliases
+Set-Alias -Name Find-MediaFiles -Value Find-MediaFile -ErrorAction SilentlyContinue
+Set-Alias -Name Find-MsOfficeFiles -Value Find-MsOfficeFile -ErrorAction SilentlyContinue
+Export-ModuleMember -Function Find-MediaFile, Find-MsOfficeFile -Alias Find-MediaFiles, Find-MsOfficeFiles

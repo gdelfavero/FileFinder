@@ -1,10 +1,10 @@
-function Find-MsOfficeFiles {
+function Find-MsOfficeFile {
     <#
     .SYNOPSIS
         Finds Microsoft Office files in a specified path.
     
     .DESCRIPTION
-        The Find-MsOfficeFiles function searches for Microsoft Office files (Word, Excel, PowerPoint, Access, etc.)
+        The Find-MsOfficeFile function searches for Microsoft Office files (Word, Excel, PowerPoint, Access, etc.)
         in a specified directory and optionally in its subdirectories. It supports both legacy and modern Office formats.
     
     .PARAMETER Path
@@ -17,15 +17,15 @@ function Find-MsOfficeFiles {
         If specified, includes legacy Office formats (.doc, .xls, .ppt) in addition to modern formats.
     
     .EXAMPLE
-        Find-MsOfficeFiles
+        Find-MsOfficeFile
         Finds all modern Microsoft Office files in the current directory.
     
     .EXAMPLE
-        Find-MsOfficeFiles -Path "C:\Documents" -Recurse
+        Find-MsOfficeFile -Path "C:\Documents" -Recurse
         Finds all modern Microsoft Office files in C:\Documents and its subdirectories.
     
     .EXAMPLE
-        Find-MsOfficeFiles -Path "C:\Documents" -Recurse -IncludeLegacy
+        Find-MsOfficeFile -Path "C:\Documents" -Recurse -IncludeLegacy
         Finds all Microsoft Office files (both modern and legacy formats) in C:\Documents and its subdirectories.
     
     .OUTPUTS

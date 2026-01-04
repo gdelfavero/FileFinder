@@ -119,8 +119,3 @@
 # Changelog
 
 Entries are prepended by `build/Update-PsFindFilesChangelog.ps1` using commit summaries from git.
-
-
-
-
-
