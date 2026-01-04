@@ -104,6 +104,12 @@ PsFindFiles/
 Functions in the `Public` folder are automatically exported by the module.
 Functions in the `Private` folder are loaded but not exported (internal use only).
 
+### Testing & Linting
+
+- Tests (Pester 3.4.x): `Invoke-Pester -Path ./tests`
+- Lint (PSScriptAnalyzer): `Invoke-ScriptAnalyzer -Path ./PsFindFiles -Settings ./PSScriptAnalyzerSettings.psd1`
+- Reimport after changes: `Import-Module ./PsFindFiles/PsFindFiles.psd1 -Force`
+
 ### License
 
 This project is open source under the MIT License (see `LICENSE`).
