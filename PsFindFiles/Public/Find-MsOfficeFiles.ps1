@@ -30,6 +30,13 @@ function Find-MsOfficeFiles {
     
     .OUTPUTS
         System.IO.FileInfo
+
+    .INPUTS
+        System.String
+
+    .NOTES
+        Author: gdelfavero
+        Version: 1.0.1
     #>
     [CmdletBinding()]
     param (

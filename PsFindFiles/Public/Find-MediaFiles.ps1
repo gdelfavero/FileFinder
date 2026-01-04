@@ -50,6 +50,9 @@ function Find-MediaFiles {
     .NOTES
         Author: gdelfavero
         Version: 2.0
+
+    .INPUTS
+        System.String
     #>
 
     [CmdletBinding()]
