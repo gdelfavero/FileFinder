@@ -1,0 +1,29 @@
+# Build / Deploy / Publish
+
+This folder centralizes the steps and scripts for preparing and publishing `PsFindFiles` to the PowerShell Gallery.
+
+## Prerequisites
+- PowerShell 5.1 or 7.x
+- NuGet provider installed (`Install-PackageProvider -Name NuGet -Force`)
+- Modules: `PSScriptAnalyzer`, `Pester`, `PlatyPS`, `PowerShellGet` (latest available for your engine)
+- PSGallery API key available and stored securely (do not commit it)
+
+## Workflow (recommended)
+1) Install prerequisites: `./Install-PublishPrereqs.ps1`
+2) Bump the module version (auto-sync README and changelog): `./Bump-PsFindFilesVersion.ps1 -BumpPatch` (or `-BumpMinor`/`-Version`)
+3) Regenerate external help (optional, or handled by publish script): `Import-Module PlatyPS; New-ExternalHelp -Path ./PsFindFiles/docs/en-US -OutputPath ./PsFindFiles/en-US -Force`
+4) Lint and test: `Invoke-ScriptAnalyzer -Path ./PsFindFiles -Settings ./PSScriptAnalyzerSettings.psd1`; `Invoke-Pester -Path ./tests`
+5) Validate manifest: `Test-ModuleManifest ./PsFindFiles/PsFindFiles.psd1`
+6) Publish: `./Publish-PsFindFiles.ps1 -ApiKey '<your-PSGallery-key>' -Repository PSGallery`
+
+## Scripts
+- `Install-PublishPrereqs.ps1`: Installs required tooling modules if missing.
+- `Bump-PsFindFilesVersion.ps1`: Updates the module version in the manifest (patch/minor/major or explicit value) and optionally updates README and changelog.
+- `Sync-PsFindFilesVersion.ps1`: Syncs the manifest version into README placeholder `__PSFINDFILES_VERSION__`.
+- `Update-PsFindFilesChangelog.ps1`: Prepends a changelog entry for the current manifest version using git commit summaries.
+- `Publish-PsFindFiles.ps1`: Runs lint/tests/help regeneration/manifest validation, then publishes to PSGallery with WhatIf support.
+
+## Notes
+- Run from the repo root unless otherwise noted.
+- Keep API keys out of source control; use environment variables or a secure string when invoking publish.
+- Adjust `Pester` version to match your test suite (current tests target Pester 3.x).
