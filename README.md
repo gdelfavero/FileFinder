@@ -115,7 +115,7 @@ PsFindFiles/
 │   ├── Find-MsOfficeFiles.ps1
 │   └── Find-MediaFiles.ps1
 └── Private/                  # Internal helper functions
-	└── Format-FileSize.ps1
+    └── Format-FileSize.ps1
 ```
 
 ### Development
