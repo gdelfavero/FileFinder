@@ -1,9 +1,11 @@
-[CmdletBinding(SupportsShouldProcess = $true)]
+[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
     [string]$ApiKey,
 
     [string]$Repository = 'PSGallery',
+
+    [switch]$PublishWhatIf,
 
     [switch]$SkipPester,
     [switch]$SkipPlatyPS,
@@ -32,7 +34,7 @@ function Assert-ModuleAvailable {
     }
 }
 
-Write-Host "Publishing PsFindFiles to $Repository (WhatIf=$($WhatIfPreference -eq $true))"
+Write-Host "Publishing PsFindFiles to $Repository (PublishWhatIf=$($PublishWhatIf -eq $true))"
 
 Assert-ModuleAvailable -Name 'PSScriptAnalyzer' -Skip:$SkipScriptAnalyzer
 Assert-ModuleAvailable -Name 'Pester' -Skip:$SkipPester
@@ -60,8 +62,6 @@ if (-not $SkipHelp) {
 Write-Host 'Validating module manifest...'
 Test-ModuleManifest -Path $ManifestPath | Out-Null
 
-if ($PSCmdlet.ShouldProcess("Repository $Repository", 'Publish PsFindFiles')) {
-    Write-Host 'Publishing module...'
-    Publish-Module -Path $ModulePath -Repository $Repository -NuGetApiKey $ApiKey -Verbose -WhatIf:$WhatIfPreference
-    Write-Host 'Publish step completed.'
-}
+Write-Host 'Publishing module...'
+Publish-Module -Path $ModulePath -Repository $Repository -NuGetApiKey $ApiKey -Verbose -WhatIf:$PublishWhatIf
+Write-Host 'Publish step completed.'
