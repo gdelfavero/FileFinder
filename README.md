@@ -19,7 +19,7 @@ From the repository:
 Import-Module ./PsFindFiles/PsFindFiles.psd1 -Force
 ```
 
-From PowerShell Gallery (after publishing):
+From PowerShell Gallery (after publishing, PowerShell 7+):
 
 ```powershell
 Install-Module PsFindFiles
