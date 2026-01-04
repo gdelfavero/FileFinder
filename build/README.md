@@ -11,18 +11,18 @@ This folder centralizes the steps and scripts for preparing and publishing `PsFi
 ## Workflow (recommended)
 1) Install prerequisites:
 ```powershell
-./Install-PublishPrereqs.ps1
+./build/Install-PublishPrereqs.ps1 -Verbose
 ```
 2) Bump the module version (auto-sync README and changelog):
 ```powershell
-./Bump-PsFindFilesVersion.ps1 -BumpPatch
+./build/Bump-PsFindFilesVersion.ps1 -BumpPatch -Verbose
 ```
 	Or:
 ```powershell
-./Bump-PsFindFilesVersion.ps1 -BumpMinor
+./build/Bump-PsFindFilesVersion.ps1 -BumpMinor -Verbose
 ```
 ```powershell
-./Bump-PsFindFilesVersion.ps1 -Version 1.1.0
+./build/Bump-PsFindFilesVersion.ps1 -Version 1.1.0 -Verbose
 ```
 3) Regenerate external help (optional, or handled by publish script):
 ```powershell
