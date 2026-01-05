@@ -1,10 +1,10 @@
-function Find-MediaFiles {
+function Find-MediaFile {
     <#
     .SYNOPSIS
         Searches for media files (audio, video, pictures, and vaults) in a specified directory.
 
     .DESCRIPTION
-        The Find-MediaFiles function searches for media files in a specified directory.
+        The Find-MediaFile function searches for media files in a specified directory.
         It supports recursive search, filtering by media type, and various output formats.
         Results can be displayed with detailed information and exported to CSV or JSON formats.
 
@@ -28,19 +28,19 @@ function Find-MediaFiles {
         Display detailed information about each file (size, creation date, modification date).
 
     .EXAMPLE
-        Find-MediaFiles
+        Find-MediaFile
         Searches for all media files in the current directory and subdirectories.
 
     .EXAMPLE
-        Find-MediaFiles -Path "C:\Users\Documents" -MediaType Audio
+        Find-MediaFile -Path "C:\Users\Documents" -MediaType Audio
         Searches for audio files only in the specified directory.
 
     .EXAMPLE
-        Find-MediaFiles -Path "D:\Media" -Recurse $false
+        Find-MediaFile -Path "D:\Media" -Recurse $false
         Searches for media files only in the specified directory (no subdirectories).
 
     .EXAMPLE
-        Find-MediaFiles -Path "C:\Media" -ExportCSV "media_results.csv" -ShowDetails
+        Find-MediaFile -Path "C:\Media" -ExportCSV "media_results.csv" -ShowDetails
         Searches for all media files and exports detailed results to CSV.
 
     .OUTPUTS
