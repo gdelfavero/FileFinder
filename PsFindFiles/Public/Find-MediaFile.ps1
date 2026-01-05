@@ -1,10 +1,10 @@
-function Find-MediaFiles {
+function Find-MediaFile {
     <#
     .SYNOPSIS
         Searches for media files (audio, video, pictures, and vaults) in a specified directory.
 
     .DESCRIPTION
-        The Find-MediaFiles function searches for media files in a specified directory.
+        The Find-MediaFile function searches for media files in a specified directory.
         It supports recursive search, filtering by media type, and various output formats.
         Results can be displayed with detailed information and exported to CSV or JSON formats.
 
@@ -28,19 +28,19 @@ function Find-MediaFiles {
         Display detailed information about each file (size, creation date, modification date).
 
     .EXAMPLE
-        Find-MediaFiles
+        Find-MediaFile
         Searches for all media files in the current directory and subdirectories.
 
     .EXAMPLE
-        Find-MediaFiles -Path "C:\Users\Documents" -MediaType Audio
+        Find-MediaFile -Path "C:\Users\Documents" -MediaType Audio
         Searches for audio files only in the specified directory.
 
     .EXAMPLE
-        Find-MediaFiles -Path "D:\Media" -Recurse $false
+        Find-MediaFile -Path "D:\Media" -Recurse $false
         Searches for media files only in the specified directory (no subdirectories).
 
     .EXAMPLE
-        Find-MediaFiles -Path "C:\Media" -ExportCSV "media_results.csv" -ShowDetails
+        Find-MediaFile -Path "C:\Media" -ExportCSV "media_results.csv" -ShowDetails
         Searches for all media files and exports detailed results to CSV.
 
     .OUTPUTS
@@ -58,20 +58,20 @@ function Find-MediaFiles {
     param(
         [Parameter(Mandatory = $false, Position = 0, ValueFromPipeline = $true)]
         [string]$Path = (Get-Location).Path,
-        
+
         [Parameter(Mandatory = $false)]
         [ValidateSet("Audio", "Video", "Picture", "Vaults", "All")]
         [string]$MediaType = "All",
-        
+
         [Parameter(Mandatory = $false)]
-        [switch]$Recurse = $true,
-        
+        [switch]$Recurse,
+
         [Parameter(Mandatory = $false)]
         [string]$ExportCSV,
-        
+
         [Parameter(Mandatory = $false)]
         [string]$ExportJSON,
-        
+
         [Parameter(Mandatory = $false)]
         [switch]$ShowDetails,
 
@@ -95,9 +95,11 @@ function Find-MediaFiles {
             Write-Information @infoParams "----------------------------------"
         }
 
+        $useRecurse = if ($PSBoundParameters.ContainsKey('Recurse')) { [bool]$Recurse } else { $true }
+
         Write-Information @infoParams "Searching in: $Path"
         Write-Information @infoParams "Media Type: $MediaType"
-        Write-Information @infoParams "Recursive: $Recurse"
+        Write-Information @infoParams "Recursive: $useRecurse"
         Write-Information @infoParams ""
 
         # Determine which extensions to search for
@@ -126,12 +128,12 @@ function Find-MediaFiles {
             $startTime = Get-Date
 
             $allMediaFiles = @()
-            
-            if ($Recurse) {
-                $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -Recurse -ErrorAction SilentlyContinue | 
+
+            if ($useRecurse) {
+                $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -Recurse -ErrorAction SilentlyContinue |
                                  Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
             } else {
-                $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -ErrorAction SilentlyContinue | 
+                $allMediaFiles = Get-ChildItem -LiteralPath $resolvedPath -File -ErrorAction SilentlyContinue |
                                  Where-Object { $searchExtensions -contains $_.Extension.ToLower() }
             }
 
@@ -157,7 +159,7 @@ function Find-MediaFiles {
                     Modified = $file.LastWriteTime
                     Type = ""
                 }
-                
+
                 # Determine file type
                 if ($audioExtensions -contains $file.Extension.ToLower()) {
                     $fileInfo.Type = "Audio"
@@ -172,7 +174,7 @@ function Find-MediaFiles {
                     $fileInfo.Type = "Vaults"
                     $vaultFiles += $fileInfo
                 }
-                
+
                 $results += $fileInfo
             }
 
@@ -206,12 +208,12 @@ function Find-MediaFiles {
             if ($results.Count -gt 0) {
                 Write-Information @infoParams ""
                 Write-Information @infoParams "----------------------------------------"
-                
+
                 if ($ShowDetails) {
                     Write-Information @infoParams ""
                     Write-Information @infoParams "Detailed File List:"
                     Write-Information @infoParams "----------------------------------------"
-                    
+
                     foreach ($file in $results | Sort-Object Type, Name) {
                         Write-Information @infoParams ""
                         Write-Information @infoParams "[$($file.Type)] $($file.Name)"
@@ -224,12 +226,12 @@ function Find-MediaFiles {
                     Write-Information @infoParams ""
                     Write-Information @infoParams "File List (use -ShowDetails for more information):"
                     Write-Information @infoParams "----------------------------------------"
-                    
+
                     foreach ($file in $results | Sort-Object Type, Name) {
                         Write-Information @infoParams "[$($file.Type.PadRight(7))] $($file.Name.PadRight(40)) $($file.SizeFormatted)"
                     }
                 }
-                
+
                 Write-Information @infoParams ""
                 Write-Information @infoParams "----------------------------------------"
             }
@@ -237,7 +239,7 @@ function Find-MediaFiles {
             # Export results to CSV
             if ($ExportCSV) {
                 try {
-                    $results | Select-Object Name, Type, Path, Directory, Extension, SizeFormatted, Created, Modified | 
+                    $results | Select-Object Name, Type, Path, Directory, Extension, SizeFormatted, Created, Modified |
                         Export-Csv -Path $ExportCSV -NoTypeInformation -Encoding UTF8
                     Write-Information @infoParams ""
                     Write-Information @infoParams "[SUCCESS] Results exported to CSV: $ExportCSV"
@@ -262,13 +264,13 @@ function Find-MediaFiles {
                 Write-Information @infoParams ""
                 Write-Information @infoParams "Extension Breakdown"
                 Write-Information @infoParams "--------------------"
-                
-                $extensionStats = $results | Group-Object Extension | 
-                    Select-Object @{Name='Extension';Expression={$_.Name}}, 
+
+                $extensionStats = $results | Group-Object Extension |
+                    Select-Object @{Name='Extension';Expression={$_.Name}},
                                   @{Name='Count';Expression={$_.Count}},
                                   @{Name='TotalSize';Expression={($_.Group | Measure-Object -Property Size -Sum).Sum}} |
                     Sort-Object Count -Descending
-                
+
                 foreach ($stat in $extensionStats) {
                     Write-Information @infoParams "  $($stat.Extension.PadRight(10)) $($stat.Count.ToString().PadLeft(5)) files  ($(Format-FileSize -Size $stat.TotalSize))"
                 }
