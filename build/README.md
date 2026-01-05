@@ -5,44 +5,47 @@ This folder centralizes the steps and scripts for preparing and publishing `PsFi
 ## Prerequisites
 - PowerShell 5.1 or 7.x
 - NuGet provider installed (`Install-PackageProvider -Name NuGet -Force`)
-- Modules: `PSScriptAnalyzer`, `Pester`, `PlatyPS`, `PowerShellGet` (latest available for your engine)
+- Modules: `PSScriptAnalyzer`, `Pester` (v5+), `PlatyPS`, `PowerShellGet` (latest available for your engine)
 - PSGallery API key available and stored securely (do not commit it)
 
 ## Workflow (recommended)
 1) Install prerequisites:
 ```powershell
-./Install-PublishPrereqs.ps1
+./build/Install-PublishPrereqs.ps1 -Verbose
 ```
 2) Bump the module version (auto-sync README and changelog):
 ```powershell
-./Bump-PsFindFilesVersion.ps1 -BumpPatch
+./build/Bump-PsFindFilesVersion.ps1 -BumpPatch -Verbose
 ```
-	Or:
+Or:
 ```powershell
-./Bump-PsFindFilesVersion.ps1 -BumpMinor
+./build/Bump-PsFindFilesVersion.ps1 -BumpMinor -Verbose
 ```
 ```powershell
-./Bump-PsFindFilesVersion.ps1 -Version 1.1.0
+./build/Bump-PsFindFilesVersion.ps1 -Version 1.2.2 -Verbose
 ```
-3) Regenerate external help (optional, or handled by publish script):
+3) Refresh PlatyPS markdown help when parameters/examples change:
 ```powershell
 Import-Module PlatyPS
+Import-Module ./PsFindFiles/PsFindFiles.psd1 -Force
+Update-MarkdownHelp -Module PsFindFiles -OutputFolder ./PsFindFiles/docs/en-US -Force
 ```
+4) Regenerate external help (XML) from markdown:
 ```powershell
 New-ExternalHelp -Path ./PsFindFiles/docs/en-US -OutputPath ./PsFindFiles/en-US -Force
 ```
-4) Lint and test:
+5) Lint and test:
 ```powershell
 Invoke-ScriptAnalyzer -Path ./PsFindFiles -Settings ./PSScriptAnalyzerSettings.psd1
 ```
 ```powershell
 Invoke-Pester -Path ./tests
 ```
-5) Validate manifest:
+6) Validate manifest:
 ```powershell
 Test-ModuleManifest ./PsFindFiles/PsFindFiles.psd1
 ```
-6) Publish:
+7) Publish:
 ```powershell
 ./Publish-PsFindFiles.ps1 -ApiKey '<your-PSGallery-key>' -Repository PSGallery
 ```
@@ -57,7 +60,7 @@ Test-ModuleManifest ./PsFindFiles/PsFindFiles.psd1
 ## Notes
 - Run from the repo root unless otherwise noted.
 - Keep API keys out of source control; use environment variables or a secure string when invoking publish.
-- Adjust `Pester` version to match your test suite (current tests target Pester 3.x).
+- Tests target `Pester` v5+.
 
 ## API key handling (SecretManagement)
 Install SecretManagement and SecretStore:

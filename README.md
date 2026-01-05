@@ -2,7 +2,7 @@
 
 A PowerShell module collection for finding specific types of files.
 
-Current module version: 1\.1\.0
+Current module version: 1.2.2
 
 ## PsFindFiles Module
 
@@ -10,8 +10,8 @@ PsFindFiles is a PowerShell module that provides cmdlets for finding various typ
 
 ### Functions Overview
 
-- `Find-MsOfficeFiles`: Locate Microsoft Office files (modern + optional legacy) with optional recursion.
-- `Find-MediaFiles`: Locate media (audio/video/picture) and vault file types, with optional exports and detailed display.
+- `Find-MsOfficeFile` (alias: `Find-MsOfficeFiles`): Locate Microsoft Office files (modern + optional legacy) with optional recursion.
+- `Find-MediaFile` (alias: `Find-MediaFiles`): Locate media (audio/video/picture) and vault file types, with optional exports and detailed display.
 
 ### Installation
 
@@ -30,7 +30,7 @@ Import-Module PsFindFiles -Force
 
 ### Available Functions
 
-#### Find-MsOfficeFiles
+#### Find-MsOfficeFile
 
 Finds Microsoft Office files in a specified path.
 
@@ -43,19 +43,19 @@ Finds Microsoft Office files in a specified path.
 
 ```powershell
 # Find modern Office files in current directory
-Find-MsOfficeFiles
+Find-MsOfficeFile
 
 # Find Office files recursively in a specific path
-Find-MsOfficeFiles -Path "C:\Documents" -Recurse
+Find-MsOfficeFile -Path "C:\\Documents" -Recurse
 
 # Find both modern and legacy Office files
-Find-MsOfficeFiles -Path "C:\Documents" -Recurse -IncludeLegacy
+Find-MsOfficeFile -Path "C:\\Documents" -Recurse -IncludeLegacy
 
 # Pipe paths in and search
-"C:\Docs","D:\Shared" | Find-MsOfficeFiles -Recurse
+"C:\\Docs","D:\\Shared" | Find-MsOfficeFile -Recurse
 ```
 
-#### Find-MediaFiles
+#### Find-MediaFile
 
 Searches for media, picture, audio, video, and vault files.
 
@@ -71,22 +71,22 @@ Searches for media, picture, audio, video, and vault files.
 
 ```powershell
 # Find all media files recursively
-Find-MediaFiles -Path "C:\Media"
+Find-MediaFile -Path "C:\\Media"
 
 # Only audio, no recursion
-Find-MediaFiles -Path "C:\Media" -MediaType Audio -Recurse:$false
+Find-MediaFile -Path "C:\\Media" -MediaType Audio -Recurse:$false
 
 # Export video results to CSV with details
-Find-MediaFiles -Path "D:\Media" -MediaType Video -ExportCSV "videos.csv" -ShowDetails
+Find-MediaFile -Path "D:\\Media" -MediaType Video -ExportCSV "videos.csv" -ShowDetails
 
 # Quick vault scan without recursion
-Find-MediaFiles -Path "C:\Users\me" -MediaType Vaults -Recurse:$false
+Find-MediaFile -Path "C:\\Users\\me" -MediaType Vaults -Recurse:$false
 
 # JSON export of pictures for a reports folder
-Find-MediaFiles -Path "E:\Reports" -MediaType Picture -ExportJSON "pics.json"
+Find-MediaFile -Path "E:\\Reports" -MediaType Picture -ExportJSON "pics.json"
 
 # Minimal: current directory, default filters
-Find-MediaFiles
+Find-MediaFile
 ```
 
 **Supported File Types:**
@@ -112,8 +112,8 @@ PsFindFiles/
 ├── PsFindFiles.psd1          # Module manifest
 ├── PsFindFiles.psm1          # Module loader
 ├── Public/                   # Exported functions
-│   ├── Find-MsOfficeFiles.ps1
-│   └── Find-MediaFiles.ps1
+│   ├── Find-MsOfficeFiles.ps1   # legacy file names; exported functions are singular
+│   └── Find-MediaFiles.ps1      # legacy file names; exported functions are singular
 └── Private/                  # Internal helper functions
 	└── Format-FileSize.ps1
 ```
@@ -125,7 +125,7 @@ Functions in the `Private` folder are loaded but not exported (internal use only
 
 ### Testing & Linting
 
-- Tests (Pester 3.4.x): `Invoke-Pester -Path ./tests`
+- Tests (Pester 5+): `Invoke-Pester -Path ./tests`
 - Lint (PSScriptAnalyzer): `Invoke-ScriptAnalyzer -Path ./PsFindFiles -Settings ./PSScriptAnalyzerSettings.psd1`
 - Reimport after changes: `Import-Module ./PsFindFiles/PsFindFiles.psd1 -Force`
 
