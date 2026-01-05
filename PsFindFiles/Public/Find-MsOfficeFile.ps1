@@ -2,32 +2,32 @@ function Find-MsOfficeFile {
     <#
     .SYNOPSIS
         Finds Microsoft Office files in a specified path.
-    
+
     .DESCRIPTION
         The Find-MsOfficeFile function searches for Microsoft Office files (Word, Excel, PowerPoint, Access, etc.)
         in a specified directory and optionally in its subdirectories. It supports both legacy and modern Office formats.
-    
+
     .PARAMETER Path
         The path to search for Microsoft Office files. Defaults to the current directory.
-    
+
     .PARAMETER Recurse
         If specified, searches subdirectories recursively.
-    
+
     .PARAMETER IncludeLegacy
         If specified, includes legacy Office formats (.doc, .xls, .ppt) in addition to modern formats.
-    
+
     .EXAMPLE
         Find-MsOfficeFile
         Finds all modern Microsoft Office files in the current directory.
-    
+
     .EXAMPLE
         Find-MsOfficeFile -Path "C:\Documents" -Recurse
         Finds all modern Microsoft Office files in C:\Documents and its subdirectories.
-    
+
     .EXAMPLE
         Find-MsOfficeFile -Path "C:\Documents" -Recurse -IncludeLegacy
         Finds all Microsoft Office files (both modern and legacy formats) in C:\Documents and its subdirectories.
-    
+
     .OUTPUTS
         System.IO.FileInfo
 
@@ -41,14 +41,14 @@ function Find-MsOfficeFile {
     param (
         [Parameter(Mandatory = $false, Position = 0, ValueFromPipeline = $true)]
         [string]$Path = (Get-Location).Path,
-        
+
         [Parameter(Mandatory = $false)]
         [switch]$Recurse,
-        
+
         [Parameter(Mandatory = $false)]
         [switch]$IncludeLegacy
     )
-    
+
     begin {
         # Modern Office file extensions (Office 2007+)
         $modernExtensions = @(
@@ -70,7 +70,7 @@ function Find-MsOfficeFile {
             '*.accdb', # Access Database
             '*.accde'  # Access Execute Only Database
         )
-        
+
         # Legacy Office file extensions (Office 97-2003)
         $legacyExtensions = @(
             '*.doc',   # Word Document
@@ -82,14 +82,14 @@ function Find-MsOfficeFile {
             '*.pps',   # PowerPoint Show
             '*.mdb'    # Access Database
         )
-        
+
         # Determine which extensions to use
         $extensions = $modernExtensions
         if ($IncludeLegacy) {
             $extensions += $legacyExtensions
         }
     }
-    
+
     process {
         try {
             $resolvedPath = Resolve-Path -LiteralPath $Path -ErrorAction Stop
@@ -107,11 +107,11 @@ function Find-MsOfficeFile {
                     File        = $true
                     ErrorAction = 'SilentlyContinue'
                 }
-                
+
                 if ($Recurse) {
                     $searchParams['Recurse'] = $true
                 }
-                
+
                 Get-ChildItem @searchParams
             }
         }
