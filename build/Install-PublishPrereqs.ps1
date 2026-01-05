@@ -37,9 +37,31 @@ if (-not (Get-PackageProvider -ListAvailable | Where-Object { $_.Name -eq 'NuGet
     Install-PackageProvider -Name NuGet -Force -ErrorAction Stop
 }
 
+function Ensure-PesterV5 {
+    param(
+        [string]$Scope,
+        [switch]$Skip,
+        [Version]$MinimumVersion = [Version]'5.0.0'
+    )
+
+    if ($Skip) {
+        Write-Verbose 'Skipping Pester as requested'
+        return
+    }
+
+    $existing = Get-Module -ListAvailable -Name Pester | Sort-Object Version -Descending | Select-Object -First 1
+    if ($existing -and $existing.Version -ge $MinimumVersion) {
+        Write-Verbose "Pester already available (version $($existing.Version))"
+        return
+    }
+
+    Write-Host "Installing Pester (>= $MinimumVersion) ..."
+    Install-Module -Name Pester -MinimumVersion $MinimumVersion -Scope $Scope -Force -AllowClobber -ErrorAction Stop
+}
+
 # Install required modules
 Install-ModuleIfMissing -Name 'PSScriptAnalyzer' -Scope $Scope -Skip:$SkipPSScriptAnalyzer
-Install-ModuleIfMissing -Name 'Pester' -Scope $Scope -Skip:$SkipPester
+Ensure-PesterV5 -Scope $Scope -Skip:$SkipPester
 Install-ModuleIfMissing -Name 'PlatyPS' -Scope $Scope -Skip:$SkipPlatyPS
 
 Write-Host 'Prerequisite check completed.'
