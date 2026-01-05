@@ -112,8 +112,8 @@ PsFindFiles/
 ├── PsFindFiles.psd1          # Module manifest
 ├── PsFindFiles.psm1          # Module loader
 ├── Public/                   # Exported functions
-│   ├── Find-MsOfficeFiles.ps1   # legacy file names; exported functions are singular
-│   └── Find-MediaFiles.ps1      # legacy file names; exported functions are singular
+│   ├── Find-MsOfficeFile.ps1
+│   └── Find-MediaFile.ps1
 └── Private/                  # Internal helper functions
 	└── Format-FileSize.ps1
 ```

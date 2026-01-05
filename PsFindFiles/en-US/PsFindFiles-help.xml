@@ -2,23 +2,23 @@
 <helpItems schema="maml" xmlns="http://msh">
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Find-MediaFiles</command:name>
+      <command:name>Find-MediaFile</command:name>
       <command:verb>Find</command:verb>
-      <command:noun>MediaFiles</command:noun>
+      <command:noun>MediaFile</command:noun>
       <maml:description>
         <maml:para>Searches for media files (audio, video, pictures, and vaults) in a specified directory.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The Find-MediaFiles function searches for media files in a specified directory. It supports recursive search, filtering by media type, and various output formats. Results can be displayed with detailed information and exported to CSV or JSON formats.</maml:para>
+      <maml:para>Finds media files in the target path with optional recursion, filtering by media type, and CSV/JSON export. The command returns file metadata and can emit an informational summary or detailed file list.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Find-MediaFiles</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+        <maml:name>Find-MediaFile</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="None">
           <maml:name>Path</maml:name>
           <maml:description>
-            <maml:para>The directory path to search for media files. Defaults to the current directory.</maml:para>
+            <maml:para>Directory to search. Accepts pipeline input. Defaults to the current directory.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -27,10 +27,34 @@
           </dev:type>
           <dev:defaultValue>(Get-Location).Path</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+          <maml:name>ExportCSV</maml:name>
+          <maml:description>
+            <maml:para>Path to write a CSV export of the results.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+          <maml:name>ExportJSON</maml:name>
+          <maml:description>
+            <maml:para>Path to write a JSON export of the results.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
           <maml:name>MediaType</maml:name>
           <maml:description>
-            <maml:para>The type of media to search for. Valid values: Audio, Video, Picture, Vaults, All Default: All</maml:para>
+            <maml:para>Media type filter. Valid values: `Audio`, `Video`, `Picture`, `Vaults`, `All`.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -39,46 +63,21 @@
           </dev:type>
           <dev:defaultValue>All</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
           <maml:name>Recurse</maml:name>
           <maml:description>
-            <maml:para>Search subdirectories recursively. Default: $true</maml:para>
+            <maml:para>Search subdirectories. Defaults to on.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
           <dev:type>
-            <maml:name>Boolean</maml:name>
+            <maml:name>SwitchParameter</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>True</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ExportCSV</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+          <maml:name>ShowBanner</maml:name>
           <maml:description>
-            <maml:para>Export results to a CSV file at the specified path.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ExportJSON</maml:name>
-          <maml:description>
-            <maml:para>Export results to a JSON file at the specified path.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ShowDetails</maml:name>
-          <maml:description>
-            <maml:para>Display detailed information about each file (size, creation date, modification date).</maml:para>
+            <maml:para>Show the informational banner/header output.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -86,37 +85,48 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-          <maml:name>ProgressAction</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+          <maml:name>ShowDetails</maml:name>
           <maml:description>
-            <maml:para>Specifies how PowerShell responds to progress updates for the command.</maml:para>
+            <maml:para>Emit per-file detail lines in the informational output.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
           <dev:type>
-            <maml:name>ActionPreference</maml:name>
+            <maml:name>SwitchParameter</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
-        <maml:name>Path</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+        <maml:name>ExportCSV</maml:name>
         <maml:description>
-          <maml:para>The directory path to search for media files. Defaults to the current directory.</maml:para>
+          <maml:para>Path to write a CSV export of the results.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>(Get-Location).Path</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+        <maml:name>ExportJSON</maml:name>
+        <maml:description>
+          <maml:para>Path to write a JSON export of the results.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
         <maml:name>MediaType</maml:name>
         <maml:description>
-          <maml:para>The type of media to search for. Valid values: Audio, Video, Picture, Vaults, All Default: All</maml:para>
+          <maml:para>Media type filter. Valid values: `Audio`, `Video`, `Picture`, `Vaults`, `All`.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -125,220 +135,10 @@
         </dev:type>
         <dev:defaultValue>All</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>Recurse</maml:name>
-        <maml:description>
-          <maml:para>Search subdirectories recursively. Default: $true</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
-        <dev:type>
-          <maml:name>Boolean</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>True</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>ExportCSV</maml:name>
-        <maml:description>
-          <maml:para>Export results to a CSV file at the specified path.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>ExportJSON</maml:name>
-        <maml:description>
-          <maml:para>Export results to a JSON file at the specified path.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>ShowDetails</maml:name>
-        <maml:description>
-          <maml:para>Display detailed information about each file (size, creation date, modification date).</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-        <maml:name>ProgressAction</maml:name>
-        <maml:description>
-          <maml:para>Specifies how PowerShell responds to progress updates for the command.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-        <dev:type>
-          <maml:name>ActionPreference</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name>System.String</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para>Accepts pipeline input for `Path`.</maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>PSCustomObject[]</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>Returns an array of custom objects containing file information.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para>Author: gdelfavero Version: 2.0</maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Find-MediaFiles
-Searches for all media files in the current directory and subdirectories.</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Find-MediaFiles -Path "C:\Users\Documents" -MediaType Audio
-Searches for audio files only in the specified directory.</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>Find-MediaFiles -Path "D:\Media" -Recurse $false
-Searches for media files only in the specified directory (no subdirectories).</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
-        <dev:code>Find-MediaFiles -Path "C:\Media" -ExportCSV "media_results.csv" -ShowDetails
-Searches for all media files and exports detailed results to CSV.</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
-        <dev:code>Find-MediaFiles -Path "C:\Users\me" -MediaType Vaults -Recurse:$false
-Quick vault scan without recursion.</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 6 --------------------------</maml:title>
-        <dev:code>Find-MediaFiles -Path "E:\Reports" -MediaType Picture -ExportJSON "pics.json"
-Exports picture metadata to JSON for a reports folder.</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks />
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Find-MsOfficeFiles</command:name>
-      <command:verb>Find</command:verb>
-      <command:noun>MsOfficeFiles</command:noun>
-      <maml:description>
-        <maml:para>Finds Microsoft Office files in a specified path.</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>The Find-MsOfficeFiles function searches for Microsoft Office files (Word, Excel, PowerPoint, Access, etc.) in a specified directory and optionally in its subdirectories. It supports both legacy and modern Office formats.</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Find-MsOfficeFiles</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
-          <maml:name>Path</maml:name>
-          <maml:description>
-            <maml:para>The path to search for Microsoft Office files. Defaults to the current directory.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>(Get-Location).Path</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>Recurse</maml:name>
-          <maml:description>
-            <maml:para>If specified, searches subdirectories recursively.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>IncludeLegacy</maml:name>
-          <maml:description>
-            <maml:para>If specified, includes legacy Office formats (.doc, .xls, .ppt) in addition to modern formats.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-          <maml:name>ProgressAction</maml:name>
-          <maml:description>
-            <maml:para>Specifies how PowerShell responds to progress updates for the command.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-          <dev:type>
-            <maml:name>ActionPreference</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="None">
         <maml:name>Path</maml:name>
         <maml:description>
-          <maml:para>The path to search for Microsoft Office files. Defaults to the current directory.</maml:para>
+          <maml:para>Directory to search. Accepts pipeline input. Defaults to the current directory.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -347,10 +147,22 @@ Exports picture metadata to JSON for a reports folder.</dev:code>
         </dev:type>
         <dev:defaultValue>(Get-Location).Path</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
         <maml:name>Recurse</maml:name>
         <maml:description>
-          <maml:para>If specified, searches subdirectories recursively.</maml:para>
+          <maml:para>Search subdirectories. Defaults to on.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>True</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+        <maml:name>ShowBanner</maml:name>
+        <maml:description>
+          <maml:para>Show the informational banner/header output.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -359,10 +171,10 @@ Exports picture metadata to JSON for a reports folder.</dev:code>
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>IncludeLegacy</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+        <maml:name>ShowDetails</maml:name>
         <maml:description>
-          <maml:para>If specified, includes legacy Office formats (.doc, .xls, .ppt) in addition to modern formats.</maml:para>
+          <maml:para>Emit per-file detail lines in the informational output.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -370,18 +182,6 @@ Exports picture metadata to JSON for a reports folder.</dev:code>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="proga">
-        <maml:name>ProgressAction</maml:name>
-        <maml:description>
-          <maml:para>Specifies how PowerShell responds to progress updates for the command.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">ActionPreference</command:parameterValue>
-        <dev:type>
-          <maml:name>ActionPreference</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -390,7 +190,158 @@ Exports picture metadata to JSON for a reports folder.</dev:code>
           <maml:name>System.String</maml:name>
         </dev:type>
         <maml:description>
-          <maml:para>Accepts pipeline input for `Path`.</maml:para>
+          <maml:para>You can pipe a path to `Find-MediaFile`.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>PSCustomObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>One object per file with name, path, directory, extension, type, size, and timestamps.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Aliases: `Find-MediaFiles` (legacy plural name).</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>------------- Example 1: Search current directory -------------</maml:title>
+        <dev:code>Find-MediaFile</dev:code>
+        <dev:remarks>
+          <maml:para>Searches for all supported media files in the current directory and subdirectories.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------- Example 2: Audio only --------------------</maml:title>
+        <dev:code>Find-MediaFile -Path "C:\Users\Documents" -MediaType Audio</dev:code>
+        <dev:remarks>
+          <maml:para>Searches for audio files in the specified directory and subdirectories.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>----------------- Example 3: Disable recursion -----------------</maml:title>
+        <dev:code>Find-MediaFile -Path "D:\Media" -Recurse:$false</dev:code>
+        <dev:remarks>
+          <maml:para>Searches only the specified directory (no subdirectories).</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>------------------ Example 4: Export results ------------------</maml:title>
+        <dev:code>Find-MediaFile -Path "C:\Media" -ExportCSV "media_results.csv" -ShowDetails</dev:code>
+        <dev:remarks>
+          <maml:para>Exports detailed results to CSV.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Find-MsOfficeFile</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Find-MsOfficeFile</command:name>
+      <command:verb>Find</command:verb>
+      <command:noun>MsOfficeFile</command:noun>
+      <maml:description>
+        <maml:para>Finds Microsoft Office files in a specified path.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Searches for Microsoft Office files (Word, Excel, PowerPoint, Access, etc.) in a target directory, optionally recursing into subdirectories. Supports modern formats by default and can include legacy formats when requested.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Find-MsOfficeFile</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="None">
+          <maml:name>Path</maml:name>
+          <maml:description>
+            <maml:para>Directory to search. Accepts pipeline input. Defaults to the current directory.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>(Get-Location).Path</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+          <maml:name>IncludeLegacy</maml:name>
+          <maml:description>
+            <maml:para>Include legacy Office formats (.doc, .xls, .ppt, .mdb) in addition to modern formats.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+          <maml:name>Recurse</maml:name>
+          <maml:description>
+            <maml:para>Search subdirectories recursively.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+        <maml:name>IncludeLegacy</maml:name>
+        <maml:description>
+          <maml:para>Include legacy Office formats (.doc, .xls, .ppt, .mdb) in addition to modern formats.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="None">
+        <maml:name>Path</maml:name>
+        <maml:description>
+          <maml:para>Directory to search. Accepts pipeline input. Defaults to the current directory.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>(Get-Location).Path</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="None">
+        <maml:name>Recurse</maml:name>
+        <maml:description>
+          <maml:para>Search subdirectories recursively.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe a path to `Find-MsOfficeFile`.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -400,49 +351,43 @@ Exports picture metadata to JSON for a reports folder.</dev:code>
           <maml:name>System.IO.FileInfo</maml:name>
         </dev:type>
         <maml:description>
-          <maml:para></maml:para>
+          <maml:para>One object per matching Office file.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Version: 1.0.1 Author: gdelfavero</maml:para>
+        <maml:para>Aliases: `Find-MsOfficeFiles` (legacy plural name).</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Find-MsOfficeFiles
-Finds all modern Microsoft Office files in the current directory.</dev:code>
+        <maml:title>-------- Example 1: Modern formats in current directory --------</maml:title>
+        <dev:code>Find-MsOfficeFile</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>Finds all modern Office files in the current directory.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Find-MsOfficeFiles -Path "C:\Documents" -Recurse
-Finds all modern Microsoft Office files in C:\Documents and its subdirectories.</dev:code>
+        <maml:title>------------ Example 2: Recurse into subdirectories ------------</maml:title>
+        <dev:code>Find-MsOfficeFile -Path "C:\Documents" -Recurse</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>Finds modern Office files in the specified path and its subdirectories.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>Find-MsOfficeFiles -Path "C:\Documents" -Recurse -IncludeLegacy
-Finds all Microsoft Office files (both modern and legacy formats) in C:\Documents and its subdirectories.</dev:code>
+        <maml:title>-------------- Example 3: Include legacy formats --------------</maml:title>
+        <dev:code>Find-MsOfficeFile -Path "C:\Documents" -Recurse -IncludeLegacy</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
-        <dev:code>"C:\Docs","D:\Shared" | Find-MsOfficeFiles -Recurse
-Pipes multiple paths into the command and searches recursively.</dev:code>
-        <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>Finds both modern and legacy Office formats.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
-    <command:relatedLinks />
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Find-MediaFile</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
   </command:command>
 </helpItems>
