@@ -8,14 +8,14 @@
 
 @{
 
-    # Script module or binary module file associated with this manifest.
-    RootModule = 'PsFindFiles.psm1'
+        # Script module or binary module file associated with this manifest.
+        RootModule = 'PsFindFiles.psm1'
 
-# Version number of this module.
-ModuleVersion = '1.2.1'
+        # Version number of this module.
+        ModuleVersion = '1.2.2'
 
-# Supported PSEditions
-CompatiblePSEditions = 'Core', 'Desktop'
+        # Supported PSEditions
+        CompatiblePSEditions = 'Core', 'Desktop'
 
     # ID used to uniquely identify this module
     GUID = '247362b2-9bcd-4b1e-8479-403817629b07'
@@ -68,8 +68,8 @@ Description = 'PowerShell module for finding Microsoft Office files, media files
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
     # NestedModules = @()
 
-# Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Find-MsOfficeFiles', 'Find-MediaFiles'
+    # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
+    FunctionsToExport = 'Find-MsOfficeFile', 'Find-MediaFile'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport = @()
@@ -77,8 +77,8 @@ FunctionsToExport = 'Find-MsOfficeFiles', 'Find-MediaFiles'
 # Variables to export from this module
 # VariablesToExport = @()
 
-    # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport = 'Find-MsOfficeFiles', 'Find-MediaFiles'
+        # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
+        AliasesToExport = 'Find-MsOfficeFiles', 'Find-MediaFiles'
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
