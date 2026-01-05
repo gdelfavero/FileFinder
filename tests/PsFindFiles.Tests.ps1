@@ -15,9 +15,11 @@ Describe 'PsFindFiles module' {
             $cmds = Get-Command -Module PsFindFiles | Select-Object -ExpandProperty Name
             ($cmds -contains 'Find-MsOfficeFile') | Should -BeTrue
             ($cmds -contains 'Find-MediaFile') | Should -BeTrue
+            ($cmds -contains 'Find-GraphicsFile') | Should -BeTrue
             ($cmds -contains 'Find-MsOfficeFiles') | Should -BeTrue
             ($cmds -contains 'Find-MediaFiles') | Should -BeTrue
-            ($cmds | Measure-Object).Count | Should -Be 4
+            ($cmds -contains 'Find-GraphicsFiles') | Should -BeTrue
+            ($cmds | Measure-Object).Count | Should -Be 6
         }
     }
 
@@ -108,6 +110,32 @@ Describe 'PsFindFiles module' {
 
             Test-Path $csvPath | Should -BeTrue
             Test-Path $jsonPath | Should -BeTrue
+        }
+    }
+
+    Context 'Find-GraphicsFile' {
+        It 'filters by graphics type' {
+            $root = Join-Path $TestDrive 'graphics-filter'
+            New-Item -ItemType Directory -Path $root | Out-Null
+            New-Item -ItemType File -Path (Join-Path $root 'art.psd') | Out-Null
+            New-Item -ItemType File -Path (Join-Path $root 'model.fbx') | Out-Null
+            New-Item -ItemType File -Path (Join-Path $root 'scan.las') | Out-Null
+
+            (Find-GraphicsFile -Path $root -GraphicsType '2D' -Recurse:$false).Count | Should -Be 1
+            (Find-GraphicsFile -Path $root -GraphicsType '3D' -Recurse:$false).Count | Should -Be 1
+            (Find-GraphicsFile -Path $root -GraphicsType 'PointCloud' -Recurse:$false).Count | Should -Be 1
+            (Find-GraphicsFile -Path $root -GraphicsType 'All' -Recurse:$false).Count | Should -Be 3
+        }
+
+        It 'respects recurse for nested directories' {
+            $root = Join-Path $TestDrive 'graphics-recurse'
+            $nested = Join-Path $root 'nested'
+            New-Item -ItemType Directory -Path $nested -Force | Out-Null
+            New-Item -ItemType File -Path (Join-Path $root 'top.psd') | Out-Null
+            New-Item -ItemType File -Path (Join-Path $nested 'deep.obj') | Out-Null
+
+            (Find-GraphicsFile -Path $root -GraphicsType All -Recurse:$false).Count | Should -Be 1
+            (Find-GraphicsFile -Path $root -GraphicsType All -Recurse:$true).Count | Should -Be 2
         }
     }
 }
