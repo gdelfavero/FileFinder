@@ -12,7 +12,7 @@
     RootModule = 'PsFindFiles.psm1'
 
     # Version number of this module.
-    ModuleVersion = '1.3.0'
+    ModuleVersion = '1.4.0'
 
     # Supported PSEditions
     CompatiblePSEditions = 'Core', 'Desktop'
@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = 'Find-MsOfficeFile', 'Find-MediaFile'
+    FunctionsToExport = 'Find-MsOfficeFile', 'Find-MediaFile', 'Find-GraphicsFile'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport = @()
@@ -78,7 +78,7 @@
     # VariablesToExport = @()
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport = 'Find-MsOfficeFiles', 'Find-MediaFiles'
+    AliasesToExport = 'Find-MsOfficeFiles', 'Find-MediaFiles', 'Find-GraphicsFiles'
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -107,7 +107,7 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'Initial gallery release with Find-MsOfficeFiles and Find-MediaFiles.'
+            ReleaseNotes = 'Adds Find-GraphicsFile for 2D/3D/point cloud assets; singular cmdlets with plural aliases.'
 
             # Prerelease string of this module
             # Prerelease = ''

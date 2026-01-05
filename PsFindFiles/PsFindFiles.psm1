@@ -28,4 +28,5 @@ foreach ($function in $PublicFunctions) {
 # Export public functions and legacy aliases
 Set-Alias -Name Find-MediaFiles -Value Find-MediaFile -ErrorAction SilentlyContinue
 Set-Alias -Name Find-MsOfficeFiles -Value Find-MsOfficeFile -ErrorAction SilentlyContinue
-Export-ModuleMember -Function Find-MediaFile, Find-MsOfficeFile -Alias Find-MediaFiles, Find-MsOfficeFiles
+Set-Alias -Name Find-GraphicsFiles -Value Find-GraphicsFile -ErrorAction SilentlyContinue
+Export-ModuleMember -Function Find-MediaFile, Find-MsOfficeFile, Find-GraphicsFile -Alias Find-MediaFiles, Find-MsOfficeFiles, Find-GraphicsFiles
