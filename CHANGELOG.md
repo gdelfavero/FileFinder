@@ -1,3 +1,56 @@
+## v1.3.0 - 2026-01-05
+
+- 0c3957e Update CHANGELOG.md to reflect recent changes and improvements across functions and documentation
+- e69a956 Fix formatting inconsistencies in Find-MsOfficeFile documentation
+- cc2bf1e Refactor Find-MediaFile parameters and improve recursion handling
+- 395f31c Fix formatting inconsistencies in Format-FileSize documentation
+- 526f44a Update module manifest: correct version number and function names for export
+- 8f48eb5 Update README to reflect changes in function names: use singular forms for Find-MediaFile and Find-MsOfficeFile
+- f51e656 Add Find-MediaFile and Find-MsOfficeFile functions for media and Office file searching
+- ca7997d Update documentation for PsFindFiles module: correct cmdlet names and versioning
+- 004f447 Add manifest formatting function and update Pester installation logic
+- c0c8646 Refactor PsFindFiles.Tests.ps1 to improve module import and update test cases for Find-MsOfficeFile and Find-MediaFile
+- 57fad40 Remove outdated documentation for Find-MediaFiles and Find-MsOfficeFiles
+- 30c8892 Merge branch 'main' into dev_gedf
+- f636ef4 Update README.md
+- 18d7592 Update README.md
+- ce2b314 Update PsFindFiles/Public/Find-MediaFiles.ps1
+- 4573db0 Apply suggestions from code review
+- bd6088f Update PsFindFiles/PsFindFiles.psd1
+- 54eda3b Update PSScriptAnalyzerSettings.psd1
+- df6fb07 Update CHANGELOG.md
+- 6d8750f Update README and tests to reflect Pester version changes and improve formatting
+- 8f7e7aa Refactor Pester installation logic to ensure minimum version requirement
+- c568acf Update module version to 1.2.2 in PsFindFiles manifest
+- d4bf46e Revert module version to 1.2.1 in PsFindFiles manifest
+- 4826fea Update PsFindFiles module and documentation
+- 0e73bad Merge branch 'dev_gedf' of https://github.com/gdelfavero/FileFinder into dev_gedf
+- 861a175 Update README to specify correct path for Install-PublishPrereqs script
+- ffab090 Update module version to 1.2.2 and rename functions for consistency: Find-MediaFiles to Find-MediaFile and Find-MsOfficeFiles to Find-MsOfficeFile; add legacy aliases for backward compatibility.
+- 2fa5db2 Refactor Bump-PsFindFilesVersion script: add manifest formatting function for consistent indentation and improve error handling in tests for Find-MsOfficeFile and Find-MediaFile functions
+- 5cd28a6 Dev gedf (#2)
+- 75c355c Merge branch 'main' into dev_gedf
+- 63ab570 Remove backup of Find-MediaFiles function to clean up repository
+- d773298 Update module version to 1.2.1 in manifest and enhance documentation for clarity and consistency
+- 5174caf Refactor Find-MediaFiles function: simplify banner and summary display for better readability
+- f7e4b65 Fix Find-MsOfficeFiles test: wrap results in array to ensure proper count evaluation
+- e957c4d Refactor Publish-PsFindFiles.ps1: update parameter handling and improve logging for publishing process
+- 50dbea9 Fix PlatyPS module assertion logic and add API key handling instructions to README
+- 5400fcd Refactor module manifest for PsFindFiles: improve formatting and organization
+- ff7a3b0 Update CHANGELOG.md to include entries for version 1.2.0
+- 960c448 Update module version in manifest to 1.2.0
+- 789e937 Format README workflow section for better readability and clarity
+- 5524e35 Update module manifest for PsFindFiles: correct generation date and increment version to 1.1.0
+- a8f627d Remove version information from Find-MediaFiles and Find-MsOfficeFiles scripts
+- d5dfc7a Update README to include current module version
+- e61ae5f Add Publish-PsFindFiles script for module publishing and validation
+- e4ae403 Add scripts for version management and changelog updates
+- c3b1dcd Add Install-PublishPrereqs script for managing module prerequisites
+- 1a0b7cc Add Bump-PsFindFilesVersion script for version management and module updates
+- c0d63a3 Update module manifest and README for clarity and consistency
+- bcd0e9a Update README to clarify PowerShell version requirement for module installation
+- ca2be60 Add .INPUTS section to Find-MediaFiles and Find-MsOfficeFiles functions for improved documentation
+
 ## v1.2.1 - 2026-01-04
 
 - Refactor Find-MediaFiles function: simplify banner and summary display for better readability (5174caf)
@@ -119,3 +172,4 @@
 # Changelog
 
 Entries are prepended by `build/Update-PsFindFilesChangelog.ps1` using commit summaries from git.
+
