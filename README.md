@@ -2,7 +2,7 @@
 
 A PowerShell module collection for finding specific types of files.
 
-Current module version: 1.3.0
+Current module version: 1.4.0
 
 ## PsFindFiles Module
 
@@ -12,6 +12,7 @@ PsFindFiles is a PowerShell module that provides cmdlets for finding various typ
 
 - `Find-MsOfficeFile` (alias: `Find-MsOfficeFiles`): Locate Microsoft Office files (modern + optional legacy) with optional recursion.
 - `Find-MediaFile` (alias: `Find-MediaFiles`): Locate media (audio/video/picture) and vault file types, with optional exports and detailed display.
+- `Find-GraphicsFile` (alias: `Find-GraphicsFiles`): Locate graphics assets (2D design files, 3D models, point clouds) with optional exports and detailed display.
 
 ### Installation
 
@@ -89,6 +90,34 @@ Find-MediaFile -Path "E:\\Reports" -MediaType Picture -ExportJSON "pics.json"
 Find-MediaFile
 ```
 
+#### Find-GraphicsFile
+
+Searches for graphics assets (2D design files, 3D models, and point clouds).
+
+**Parameters:**
+- `Path` - The path to search (defaults to current directory)
+- `GraphicsType` - One of 2D, 3D, PointCloud, All (default: All)
+- `Recurse` - Search subdirectories (default: `$true`)
+- `ExportCSV` - Export results to CSV
+- `ExportJSON` - Export results to JSON
+- `ShowDetails` - Show detailed output per file
+
+**Examples:**
+
+```powershell
+# 2D design files
+Find-GraphicsFile -Path "C:\\Design" -GraphicsType 2D
+
+# 3D assets in top-level only
+Find-GraphicsFile -Path "D:\\Assets" -GraphicsType 3D -Recurse:$false
+
+# Point clouds with export
+Find-GraphicsFile -Path "E:\\Scans" -GraphicsType PointCloud -ExportCSV scans.csv -ShowDetails
+
+# All supported graphics assets
+Find-GraphicsFile
+```
+
 **Supported File Types:**
 
 Modern formats (Office 2007+):
@@ -113,7 +142,8 @@ PsFindFiles/
 ├── PsFindFiles.psm1          # Module loader
 ├── Public/                   # Exported functions
 │   ├── Find-MsOfficeFile.ps1
-│   └── Find-MediaFile.ps1
+│   ├── Find-MediaFile.ps1
+│   └── Find-GraphicsFile.ps1
 └── Private/                  # Internal helper functions
 	└── Format-FileSize.ps1
 ```

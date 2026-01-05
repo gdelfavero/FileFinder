@@ -1,3 +1,9 @@
+## v1.4.0 - 2026-01-05
+
+- Add Find-GraphicsFile for 2D design, 3D, and point cloud assets with exports (new alias Find-GraphicsFiles)
+- Export new graphics cmdlet in manifest and module loader; bump module version to 1.4.0
+- Update README and help docs for graphics support
+
 ## v1.3.0 - 2026-01-05
 
 - Update CHANGELOG.md to reflect recent changes and improvements across functions and documentation (0c3957e)
